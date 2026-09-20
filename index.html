@@ -33,7 +33,7 @@
             </svg>
         );
 
-        // 10の基本型（単語をさらにカラフルに設計）
+        // 10の基本型（カラフルで直感的な単語ボタン）
         const CORE_PATTERNS = [
             {
                 id: 1,
@@ -64,7 +64,7 @@
                     { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをお願いします", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
                     { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋を1つお願いします", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
                     { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "レシート", trans: "レシートをお願いします", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
-                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票", trans: "統一発票（レシート）をお願いします", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票", trans: "統一発票をお願いします", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
                     { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器をお願いします", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" },
                     { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンをお願いします", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
                     { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷をお願いします", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
@@ -209,12 +209,12 @@
             {
                 id: 10,
                 name: "【使える型】これ／あれ／不好意思／〜したい",
-                formula: "我想要～ / 不好意思",
+                formula: "單字フレーズ",
                 color: "bg-teal-600",
                 lightColor: "bg-teal-50 text-teal-700",
                 words: [
-                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これをください", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" },
-                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれをください", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
+                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これをください", trans: "これをください", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" },
+                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれをください", trans: "あれをください", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
                     { zh: "不好意思", zhuyin: "ㄅㄨˋ ㄏㄠˇ ㄧˋ ㄙ˙", pinyin: "bù hǎo yì si", ja: "すみません", trans: "すみません", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
                     { zh: "我想看", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄎㄢˋ", pinyin: "wǒ xiǎng kàn", ja: "見たいです", trans: "見てもいいですか", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
                     { zh: "我想試穿", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄕˋ ㄔㄨㄢ", pinyin: "wǒ xiǎng shì chuān", ja: "試着したい", trans: "試着してもいいですか", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
@@ -404,7 +404,7 @@
                     setSearchQuery('');
                     speakText(foundPattern.id === 10 ? foundWord.zh : foundPattern.formula.replace('～', foundWord.zh));
                 } else {
-                    setSearchResult("該当する単語が見つからなかったピヨ…別の言葉で探してみてね！");
+                    setSearchResult("該当する単語が見つからないピヨ…別の言葉で探してね！");
                 }
             };
 
@@ -724,10 +724,10 @@
                                 </div>
                             </div>
 
-                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン） */}
+                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン・しっかり表示） */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3 flex items-center justify-between">
-                                    <span>👇 単語をタップして入れ替え（カラフルで見やすい！）</span>
+                                    <span>👇 単語をタップして入れ替え（カラフル連動）</span>
                                     <span className="text-[10px] text-orange-600 bg-amber-100 px-2 py-0.5 rounded border border-slate-800">タップで単語音声</span>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
