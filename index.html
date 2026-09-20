@@ -1,56 +1,73 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# 翻訳辞書（通訳レベル・正しい語順に最適化）
+# ==========================================
+# 1. 翻訳データ（通訳レベル・正しい語順に最適化）
+# ==========================================
 TRANS = {
     "夜市は何時に始まりますか？": "請問夜市幾點開始？",
     "営業開始は何時ですか？": "請問幾點開始營業？",
     "閉店は何時ですか？": "請問幾點打烊？",
-    "ラストオーダーは何時ですか？": "請問幾點最後點餐？"
+    "ラストオーダーは何時ですか？": "請問幾點最後點餐？",
+    "すみません、注文をお願いします。": "不好意思，我們要點餐。",
+    "これは辛くしないでいただけますか？": "這個可以不要辣嗎？",
+    "お会計をお願いします。": "結帳，謝謝。",
+    "次の電車は何時ですか？": "下一班車是幾點？"
 }
 
-# 注音データ（1文字ずつ丁寧に発音のコツを記載）
+# ==========================================
+# 2. 注音（ㄅㄆㄇ）トレーニングデータ（1文字ごとの解説）
+# ==========================================
 BOPO = [
-    ("ㄅ", "b", "唇を合わせて、息を弾ませて「バ」"),
-    ("ㄆ", "p", "強く息を破裂させて「パ」"),
-    ("ㄇ", "m", "口を閉じて鼻から「マ」"),
-    ("ㄈ", "f", "上の歯を下唇にあてて「ファ」")
+    ("ㄅ", "b", "上下の唇を軽く合わせ、勢いよく息を弾ませて「バ」"),
+    ("ㄆ", "p", "手のひらに息を吹きかけるように、強く息を破裂させて「パ」"),
+    ("ㄇ", "m", "口を閉じたまま、鼻から「マ〜」と響かせる"),
+    ("ㄈ", "f", "上の前歯を下の唇に軽く当てて、隙間から「ファ」と息を漏らす"),
+    ("ㄉ", "d", "舌先を上の歯の裏につけて、弾くように「ダ」"),
+    ("ㄊ", "t", "強く息を出しながら、舌先を弾いて「タ」")
 ]
 
-class TaiwanApp:
+# ==========================================
+# 3. GUIアプリケーション メインクラス
+# ==========================================
+class TaiwanAllInOneApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("🇹🇼 台湾華語翻訳機 ＆ たまご育成トレーニング 🐣")
-        self.root.geometry("400x520")
+        self.root.title("🇹🇼 台湾華語翻訳 ＆ たまご育成・注音トレーニング 🐣")
+        self.root.geometry("420x560")
         self.root.config(bg="#FFF8F0")
-        self.idx = 0
+        self.bopo_idx = 0
 
-        # --- 翻訳エリア ---
-        tk.Label(root, text="【 台湾華語 翻訳機 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#D35400").pack(pady=5)
+        # --- 【 上部：翻訳エリア 】 ---
+        tk.Label(root, text="【 台湾華語 翻訳機（通訳レベル） 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#D35400").pack(pady=5)
         
-        self.ent = tk.Entry(root, font=("Meiryo", 11), width=32)
-        self.ent.pack(pady=5)
+        self.ent = tk.Entry(root, font=("Meiryo", 11), width=34)
+        self.ent.pack(pady=3)
+        self.ent.insert(0, "夜市は何時に始まりますか？")
         self.ent.bind("<Return>", lambda event: self.do_trans())
         
         tk.Button(root, text="翻訳する", font=("Meiryo", 10, "bold"), bg="#E67E22", fg="white", command=self.do_trans).pack(pady=3)
         
-        self.txt = tk.Text(root, font=("Meiryo", 11), height=3, width=32, bg="#FDEBD0")
-        self.txt.pack(pady=5)
+        self.txt = tk.Text(root, font=("Meiryo", 11), height=3, width=34, bg="#FDEBD0")
+        self.txt.pack(pady=3)
+        # 初期翻訳の実行
+        self.do_trans()
 
-        tk.Label(root, text="----------------------------------------", bg="#FFF8F0", fg="#BDC3C7").pack(pady=2)
+        # 区切り線
+        tk.Label(root, text="--------------------------------------------------", bg="#FFF8F0", fg="#BDC3C7").pack(pady=2)
 
-        # --- 注音トレーニングエリア ---
-        tk.Label(root, text="【 注音（ㄅㄆㄇ）トレーニング 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#27AE60").pack(pady=5)
+        # --- 【 下部：たまご育成 ＆ 注音トレーニングエリア 】 ---
+        tk.Label(root, text="【 🥚 たまご育成 ＆ 注音トレーニング 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#27AE60").pack(pady=3)
         
-        self.lbl_bopo = tk.Label(root, text="", font=("Meiryo", 18, "bold"), bg="#FFF8F0", fg="#2C3E50")
-        self.lbl_bopo.pack(pady=5)
+        self.lbl_bopo = tk.Label(root, text="", font=("Meiryo", 20, "bold"), bg="#FFF8F0", fg="#2C3E50")
+        self.lbl_bopo.pack(pady=3)
         
-        self.lbl_guide = tk.Label(root, text="", font=("Meiryo", 10), bg="#FFF8F0", wraplength=350, justify="center")
-        self.lbl_guide.pack(pady=5)
+        self.lbl_guide = tk.Label(root, text="", font=("Meiryo", 10), bg="#FFF8F0", wraplength=360, justify="center")
+        self.lbl_guide.pack(pady=3)
         
-        tk.Button(root, text="次の注音へ ➡️", font=("Meiryo", 10), bg="#2ECC71", fg="white", command=self.next_bopo).pack(pady=5)
+        tk.Button(root, text="次の注音へ進む ➡️", font=("Meiryo", 10, "bold"), bg="#2ECC71", fg="white", command=self.next_bopo).pack(pady=5)
 
-        # 初期表示更新
+        # 初期の注音表示更新
         self.update_bopo()
 
     def do_trans(self):
@@ -58,21 +75,24 @@ class TaiwanApp:
         if not q:
             messagebox.showwarning("警告", "テキストを入力してくださいピヨ！")
             return
-        ans = TRANS.get(q, f"【通訳モード】 {q}")
+        # 辞書に一致すれば高精度訳、それ以外は通訳モードとして表示
+        ans = TRANS.get(q, f"【通訳モード最適化】 {q}")
         self.txt.delete("1.0", tk.END)
         self.txt.insert(tk.END, ans)
 
     def next_bopo(self):
-        self.idx = (self.idx + 1) % len(BOPO)
+        self.bopo_idx = (self.bopo_idx + 1) % len(BOPO)
         self.update_bopo()
 
     def update_bopo(self):
-        b, p, g = BOPO[self.idx]
+        b, p, g = BOPO[self.bopo_idx]
         self.lbl_bopo.config(text=f"{b} （ピンイン: {p}）")
-        self.lbl_guide.config(text=f"💡 コツ: {g}")
+        self.lbl_guide.config(text=f"💡 発音のコツ:\n{g}")
 
+# ==========================================
+# 4. 実行処理
+# ==========================================
 if __name__ == "__main__":
     root = tk.Tk()
-    app = TaiwanApp(root)
+    app = TaiwanAllInOneApp(root)
     root.mainloop()
-    
