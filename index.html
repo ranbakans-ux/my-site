@@ -19,6 +19,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        // とり先生の顔SVG（通常のアイコン用）
         const ToriAvatar = () => (
             <svg viewBox="0 0 100 100" className="w-full h-full">
                 <rect x="5" y="5" width="90" height="90" rx="45" fill="#FFE500" stroke="#000" strokeWidth="6"/>
@@ -33,8 +34,32 @@
             </svg>
         );
 
-        // 10の基本型（ご要望をすべて正しく反映）
-        const CORE_PATTERNS = [
+        // 育成ルーム用の可愛いひよこちゃんSVGイラスト（アイテム着用対応）
+        const CuteHatchling = ({ hatItem, bgStyle }) => (
+            <div className={`w-32 h-32 mx-auto rounded-full border-4 border-slate-800 flex items-center justify-center relative shadow-lg transition-all ${bgStyle || 'bg-amber-300'}`}>
+                {/* ひよこ本体 */}
+                <svg viewBox="0 0 100 100" className="w-24 h-24">
+                    <circle cx="50" cy="55" r="35" fill="#FFF066" stroke="#000" strokeWidth="5"/>
+                    {/* 目 */}
+                    <circle cx="38" cy="50" r="5" fill="#000"/>
+                    <circle cx="62" cy="50" r="5" fill="#000"/>
+                    {/* ほっぺ */}
+                    <ellipse cx="30" cy="58" rx="6" ry="4" fill="#FF80AB"/>
+                    <ellipse cx="70" cy="58" rx="6" ry="4" fill="#FF80AB"/>
+                    {/* くちばし */}
+                    <polygon points="50,54 44,64 56,64" fill="#FF9800" stroke="#000" strokeWidth="3"/>
+                </svg>
+                {/* 育成アイテム（タピオカや台北101ハットなど） */}
+                {hatItem && (
+                    <div className="absolute -top-4 text-3xl animate-bounce">
+                        {hatItem}
+                    </div>
+                )}
+            </div>
+        );
+
+        // 10の基本型（現地で自然な表現・正しい漢字・順序に最適化）
+        const INITIAL_CORE_PATTERNS = [
             {
                 id: 1,
                 name: "【注文】〜をください",
@@ -64,13 +89,13 @@
                     { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューください", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
                     { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "レシート", trans: "レシートください", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
                     { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "領収書", trans: "領収書ください", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
-                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋1つください", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
-                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器ください", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" },
+                    { zh: "一個小盤子", zhuyin: "ㄧ ㄍㄜˋ ㄒㄧㄠˇ ㄆㄢˊ ㄗ˙", pinyin: "yī gè xiǎo pán zi", ja: "取り皿", trans: "取り皿ください（現地表現）", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋1つください", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" },
                     { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンください", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
                     { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷ください", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
                     { zh: "吸管", zhuyin: "ㄒㄧ ㄍㄨㄢˇ", pinyin: "xī guǎn", ja: "ストロー", trans: "ストローください", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" },
                     { zh: "熱水", zhuyin: "ㄖㄜˋ ㄕㄨㄟˇ", pinyin: "rè shuǐ", ja: "お湯", trans: "お湯ください", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" },
-                    { zh: "分裝盤", zhuyin: "ㄈㄣ ㄓㄨㄤ ㄆㄢˊ", pinyin: "fēn zhuāng pán", ja: "取り皿", trans: "取り皿ください", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" }
+                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器ください", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" }
                 ]
             },
             {
@@ -156,15 +181,15 @@
                 color: "bg-purple-500",
                 lightColor: "bg-purple-50 text-purple-700",
                 words: [
+                    { zh: "早餐", zhuyin: "ㄗㄠˇ ㄘㄢ", pinyin: "zǎo cān", ja: "朝ごはん（〜まで：到）", trans: "朝ごはんは何時までですか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300", isBreakfastSpecial: true },
+                    { zh: "夜市幾點開始", zhuyin: "ㄧㄝˋ ㄕˋ ㄐㄧˇ ㄉㄧㄢˇ ㄎㄞ ㄕˇ", pinyin: "yè shì jǐ diǎn kāi shǐ", ja: "夜市は何時から？", trans: "夜市は何時から始まりますか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車", trans: "何時に発車しますか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300", isDepartureSpecial: true },
                     { zh: "開始營業", zhuyin: "ㄎㄞ ㄕˇ ㄧㄥˊ ㄧㄝˋ", pinyin: "kāi shǐ yíng yè", ja: "営業開始", trans: "営業開始は何時ですか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
                     { zh: "打烊", zhuyin: "ㄉㄚˇ ㄧㄤˋ", pinyin: "dǎ yàng", ja: "閉店", trans: "閉店は何時ですか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
                     { zh: "最後點餐", zhuyin: "ㄗㄨㄟˋ ㄏㄡˋ ㄉㄧㄢˇ ㄘㄢ", pinyin: "zuì hòu diǎn cān", ja: "ラストオーダー", trans: "ラストオーダーは何時ですか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
                     { zh: "開門", zhuyin: "ㄎㄞ ㄇㄣˊ", pinyin: "kāi mén", ja: "開店", trans: "開店は何時ですか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
-                    { zh: "吃早餐", zhuyin: "ㄔ ㄗㄠˇ ㄘㄢ", pinyin: "chī zǎo cān", ja: "モーニング（朝食）", trans: "モーニングは何時ですか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
-                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？", color: "bg-indigo-200 text-indigo-950 border-indigo-400 hover:bg-indigo-300" },
                     { zh: "休息", zhuyin: "ㄒㄧㄡ ㄒㄧˊ", pinyin: "xiū xí", ja: "休憩・定休日", trans: "休憩時間は何時ですか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
-                    { zh: "夜市開市", zhuyin: "ㄧㄝˋ ㄕˋ ㄎㄞ ㄕˋ", pinyin: "yè shì kāi shì", ja: "夜市オープン", trans: "夜市オープンは何時ですか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
-                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車", trans: "発車は何時ですか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？", color: "bg-indigo-200 text-indigo-950 border-indigo-400 hover:bg-indigo-300" },
                     { zh: "現在", zhuyin: "ㄒㄧㄢˋ ㄗㄞˋ", pinyin: "xiàn zài", ja: "今", trans: "今何時ですか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
@@ -262,7 +287,6 @@
             }
         ];
 
-        // 最新の台湾トレンド・お役立ち情報を毎回動的にピックアップするトリビアリスト（AI機能イメージ）
         const DYNAMIC_TRIVIA_LIST = [
             "💡【トリ先生の最新台湾トリビア】台湾のドリンクスタンドでは、エコ政策の一環でプラスチックカップが原則廃止！マイボトル持参やレンタルカップが主流になっているピヨ！",
             "💡【トリ先生の最新台湾トリビア】台北MRT内での飲食厳禁は有名ですが、なんとガムや水の一口も罰金対象（最大7,500元）！気をつけるピヨ！",
@@ -272,19 +296,29 @@
         ];
 
         function App() {
-            const [userName, setUserName] = useState('トリさん');
+            const [userName, setUserName] = useState('');
             const [isAnonymous, setIsAnonymous] = useState(false);
             const [isSetupDone, setIsSetupDone] = useState(false);
             const [isEditingSettings, setIsEditingSettings] = useState(false);
 
-            // 設定項目のステート
-            const [volume, setVolume] = useState(80); // ボリューム設定 (0-100)
-            const [showActivity, setShowActivity] = useState(true); // プライバシー: アクティビティを表示するか
-            const [allowDataCollection, setAllowDataCollection] = useState(true); // 情報収集・分析用データの許可
+            // ユーザー設定ステート
+            const [volume, setVolume] = useState(80);
+            const [showActivity, setShowActivity] = useState(true);
+            const [allowDataCollection, setAllowDataCollection] = useState(true);
+            const [activeBg, setActiveBg] = useState('bg-amber-300'); // 背景カスタマイズ用
 
-            const [selectedPattern, setSelectedPattern] = useState(CORE_PATTERNS[0]);
-            const [currentWordObj, setCurrentWordObj] = useState(CORE_PATTERNS[0].words[0]);
-            
+            // 核心データ（カスタム単語追加機能対応）
+            const [corePatterns, setCorePatterns] = useState(INITIAL_CORE_PATTERNS);
+            const [selectedPattern, setSelectedPattern] = useState(corePatterns[0]);
+            const [currentWordObj, setCurrentWordObj] = useState(corePatterns[0].words[0]);
+
+            // カスタム単語登録用モーダル・ステート
+            const [isAddingCustomWord, setIsAddingCustomWord] = useState(false);
+            const [customZh, setCustomZh] = useState('');
+            const [customJa, setCustomJa] = useState('');
+            const [customPinyin, setCustomPinyin] = useState('');
+            const [customZhuyin, setCustomZhuyin] = useState('');
+
             const [rubyType, setRubyType] = useState('pinyin'); 
             const [theme, setTheme] = useState('normal'); 
             const [activeTab, setActiveTab] = useState('app'); 
@@ -300,10 +334,10 @@
             const [showExplanation, setShowExplanation] = useState(false);
             const [currentTip, setCurrentTip] = useState(DYNAMIC_TRIVIA_LIST[0]);
 
-            // ご意見ボックス用ステート
+            // ご意見ボックス用
             const [feedbackText, setFeedbackText] = useState('');
             const [feedbackList, setFeedbackList] = useState([
-                { name: '旅好きさん', text: 'とても使いやすいアプリです！発音機能が旅行に役立ちそう。', time: '昨日' }
+                { name: '旅好きさん', text: '現地表現（小盤子など）や「到」の解説がめちゃくちゃタメになります！', time: '昨日' }
             ]);
             const [feedbackSent, setFeedbackSent] = useState(false);
 
@@ -336,13 +370,12 @@
             const handleHatchCheck = () => {
                 if (eggExp >= 100 && !isHatched) {
                     setIsHatched(true);
-                    const newReward = `🐣 トリ先生の特製ゴールドスタンプ #${rewards.length + 1}`;
+                    const newReward = `🐣 台湾タピオカハット #${rewards.length + 1}`;
                     setRewards(r => [...r, newReward]);
-                    alert("🎉 おめでとうございます！たまごが無事に孵化して、新しい特典アイテムをゲットしましたピヨ！✨");
+                    alert("🎉 おめでとうございます！たまごが無事に孵化して、ひよこちゃんが台湾アイテム（タピオカハット）を身につけたピヨ！✨");
                 }
             };
 
-            // ボリューム設定を反映した音声読み上げ
             const speakText = (text, isWordOnly = false) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
@@ -350,7 +383,7 @@
                     utterance.lang = 'zh-TW'; 
                     utterance.rate = 0.85;
                     utterance.pitch = 1.1; 
-                    utterance.volume = volume / 100; // ボリューム設定の適用
+                    utterance.volume = volume / 100;
 
                     const voices = window.speechSynthesis.getVoices();
                     const googleFemaleVoice = voices.find(v => v.lang === 'zh-TW' && (v.name.includes('Google') || v.name.includes('Female') || v.name.includes('Mei-Jia') || v.name.includes('Yaoyao')));
@@ -378,10 +411,39 @@
                 }
             }, []);
 
-            // 一番上の全体文を組み立て（変更した単語部分だけカラー・強調にする）
+            // センテンス組み立て（「到」や単語の部分をカラー・強調）
             const renderFormattedSentence = () => {
                 if (selectedPattern.id === 10) {
                     return <span className="text-orange-600 underline decoration-4 decoration-amber-400">{currentWordObj.zh}</span>;
+                }
+
+                // 特別ルール：朝ごはん（到）の型の場合
+                if (selectedPattern.id === 7 && currentWordObj.isBreakfastSpecial) {
+                    return (
+                        <span>
+                            請問
+                            <span className="text-orange-600 underline decoration-4 decoration-amber-400 bg-amber-100 px-2 py-0.5 rounded-xl mx-1 inline-block">
+                                早餐
+                            </span>
+                            <span className="text-rose-600 font-black bg-rose-100 px-2 py-0.5 rounded-xl mx-1 inline-block">
+                                到
+                            </span>
+                            幾點？
+                        </span>
+                    );
+                }
+
+                // 特別ルール：発車の型の場合
+                if (selectedPattern.id === 7 && currentWordObj.isDepartureSpecial) {
+                    return (
+                        <span>
+                            幾點
+                            <span className="text-orange-600 underline decoration-4 decoration-amber-400 bg-amber-100 px-2 py-0.5 rounded-xl mx-1 inline-block">
+                                發車
+                            </span>
+                            ？
+                        </span>
+                    );
                 }
 
                 const formula = selectedPattern.formula; // 例: "我要～"
@@ -399,6 +461,8 @@
 
             const getFullTextPlain = () => {
                 if (selectedPattern.id === 10) return currentWordObj.zh;
+                if (selectedPattern.id === 7 && currentWordObj.isBreakfastSpecial) return "請問早餐到幾點？";
+                if (selectedPattern.id === 7 && currentWordObj.isDepartureSpecial) return "幾點發車？";
                 return selectedPattern.formula.replace('～', currentWordObj.zh);
             };
 
@@ -421,7 +485,7 @@
                 let foundWord = null;
                 let foundPattern = null;
 
-                for (const pat of CORE_PATTERNS) {
+                for (const pat of corePatterns) {
                     const matched = pat.words.find(w => w.ja.includes(searchQuery) || w.zh.includes(searchQuery));
                     if (matched) {
                         foundWord = matched;
@@ -435,13 +499,12 @@
                     setCurrentWordObj(foundWord);
                     setSearchResult(null);
                     setSearchQuery('');
-                    speakText(foundPattern.id === 10 ? foundWord.zh : foundPattern.formula.replace('～', foundWord.zh));
+                    speakText(getFullTextPlain());
                 } else {
                     setSearchResult("該当する単語が見つからないピヨ…別の言葉で探してね！");
                 }
             };
 
-            // AI機能を駆使して毎回違った最新トリビアをランダムにピックアップする関数
             const changeTip = () => {
                 const randomIdx = Math.floor(Math.random() * DYNAMIC_TRIVIA_LIST.length);
                 setCurrentTip(DYNAMIC_TRIVIA_LIST[randomIdx]);
@@ -467,6 +530,39 @@
                 setTimeout(() => setFeedbackSent(false), 3000);
             };
 
+            // カスタム単語の追加処理
+            const handleAddCustomWord = (e) => {
+                e.preventDefault();
+                if (!customZh || !customJa) return;
+
+                const newWord = {
+                    zh: customZh,
+                    ja: customJa,
+                    pinyin: customPinyin || customZh,
+                    zhuyin: customZhuyin || 'ㄅㄆㄇ',
+                    color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300"
+                };
+
+                const updatedPatterns = corePatterns.map(pat => {
+                    if (pat.id === selectedPattern.id) {
+                        return { ...pat, words: [...pat.words, newWord] };
+                    }
+                    return pat;
+                });
+
+                setCorePatterns(updatedPatterns);
+                const updatedCurrentPat = updatedPatterns.find(p => p.id === selectedPattern.id);
+                setSelectedPattern(updatedCurrentPat);
+                setCurrentWordObj(newWord);
+
+                setCustomZh('');
+                setCustomJa('');
+                setCustomPinyin('');
+                setCustomZhuyin('');
+                setIsAddingCustomWord(false);
+                alert("✨ 新しい単語を登録しましたピヨ！作文マシンで使ってみてね！");
+            };
+
             const renderRuby = (wordObj) => {
                 if (rubyType === 'zhuyin') return <span className="text-xs font-bold text-orange-600 bg-amber-100 px-2 py-0.5 rounded-lg border border-slate-800">注音: {wordObj.zhuyin}</span>;
                 return <span className="text-xs font-bold text-orange-600 bg-amber-100 px-2 py-0.5 rounded-lg border border-slate-800">ピン音: {wordObj.pinyin}</span>;
@@ -488,9 +584,9 @@
                                     type="text" 
                                     value={userName} 
                                     onChange={(e) => setUserName(e.target.value)} 
-                                    placeholder="例：トリさん" 
+                                    placeholder="例: トリさん" 
                                     disabled={isAnonymous}
-                                    className="w-full bg-amber-50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold disabled:opacity-50"
+                                    className="w-full bg-amber-50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold disabled:opacity-50 placeholder:text-slate-300"
                                 />
                             </div>
 
@@ -557,11 +653,11 @@
                         </div>
                     </header>
 
-                    {/* 詳細設定モーダル（ボリューム・プライバシー・情報収集設定） */}
+                    {/* 詳細設定モーダル（ボリューム・プライバシー・背景カスタマイズ） */}
                     {isEditingSettings && (
                         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                            <div className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full max-w-md space-y-4 text-slate-900">
-                                <h3 className="text-base font-black text-center">⚙️ アプリ設定</h3>
+                            <div className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full max-w-md space-y-4 text-slate-900 max-h-[90vh] overflow-y-auto">
+                                <h3 className="text-base font-black text-center">⚙️ アプリ設定 & カスタマイズ</h3>
                                 
                                 <div>
                                     <label className="block text-xs font-black mb-1">お名前（ニックネーム等）</label>
@@ -569,9 +665,9 @@
                                         type="text" 
                                         value={userName} 
                                         onChange={(e) => setUserName(e.target.value)} 
-                                        placeholder="例：トリさん" 
+                                        placeholder="例: トリさん" 
                                         disabled={isAnonymous}
-                                        className="w-full bg-amber-50 border-2 border-slate-800 rounded-2xl px-4 py-2 text-xs font-bold disabled:opacity-50"
+                                        className="w-full bg-amber-50 border-2 border-slate-800 rounded-2xl px-4 py-2 text-xs font-bold disabled:opacity-50 placeholder:text-slate-300"
                                     />
                                 </div>
 
@@ -598,6 +694,16 @@
                                         onChange={(e) => setVolume(Number(e.target.value))}
                                         className="w-full accent-orange-500"
                                     />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-black mb-1">🎨 育成ルームひよこの背景カスタマイズ</label>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => setActiveBg('bg-amber-300')} className="w-8 h-8 rounded-full bg-amber-300 border-2 border-slate-800"></button>
+                                        <button onClick={() => setActiveBg('bg-emerald-300')} className="w-8 h-8 rounded-full bg-emerald-300 border-2 border-slate-800"></button>
+                                        <button onClick={() => setActiveBg('bg-sky-300')} className="w-8 h-8 rounded-full bg-sky-300 border-2 border-slate-800"></button>
+                                        <button onClick={() => setActiveBg('bg-pink-300')} className="w-8 h-8 rounded-full bg-pink-300 border-2 border-slate-800"></button>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-2 bg-amber-50 p-3 rounded-2xl border-2 border-slate-800">
@@ -636,6 +742,33 @@
                         </div>
                     )}
 
+                    {/* カスタム単語登録モーダル */}
+                    {isAddingCustomWord && (
+                        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                            <form onSubmit={handleAddCustomWord} className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full max-w-sm space-y-3 text-slate-900">
+                                <h3 className="text-base font-black text-center">✏️ 新しい単語を登録する</h3>
+                                <p className="text-[11px] text-slate-600 font-bold text-center">現在選択中のカテゴリー（{selectedPattern.name}）に追加されます。</p>
+                                
+                                <div>
+                                    <label className="block text-xs font-black mb-1">台湾華語（漢字）</label>
+                                    <input type="text" value={customZh} onChange={(e) => setCustomZh(e.target.value)} placeholder="例：鳳梨酥" required className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-black mb-1">日本語の意味</label>
+                                    <input type="text" value={customJa} onChange={(e) => setCustomJa(e.target.value)} placeholder="例：パイナップルケーキ" required className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-black mb-1">ピン音（任意）</label>
+                                    <input type="text" value={customPinyin} onChange={(e) => setCustomPinyin(e.target.value)} placeholder="例：fèng lí sū" className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
+                                </div>
+                                <div className="flex gap-2 pt-2">
+                                    <button type="button" onClick={() => setIsAddingCustomWord(false)} className="flex-1 py-2 bg-slate-200 font-black rounded-xl border-2 border-slate-800 text-xs">キャンセル</button>
+                                    <button type="submit" className="flex-1 py-2 bg-orange-500 text-white font-black rounded-xl border-2 border-slate-800 text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">登録する ✨</button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
+
                     {/* タブ切り替え */}
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 mb-4">
                         <button 
@@ -670,7 +803,7 @@
                         </button>
                     </div>
 
-                    {/* ご意見ボックス（改善案コメントタブ） */}
+                    {/* ご意見ボックス */}
                     {activeTab === 'feedback' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col space-y-4 flex-1`}>
                             <div className="border-b-2 border-slate-200 pb-3">
@@ -707,26 +840,26 @@
                         </div>
                     )}
 
-                    {/* たまご育成ルーム */}
+                    {/* たまご育成ルーム（可愛いひよこ＆台湾アイテム着用） */}
                     {activeTab === 'rewards' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
                                 <h2 className="text-lg font-black mb-1">🐣 トリ先生のたまご育成ルーム</h2>
-                                <p className="text-xs opacity-80">たくさん練習してゲージが貯まったら、ここをチェックして孵化させよう！</p>
+                                <p className="text-xs opacity-80">たくさん練習してゲージを貯めると、ひよこが台湾アイテムを身につけるよ！</p>
                             </div>
 
-                            <div className="bg-amber-50 border-3 border-slate-800 rounded-3xl p-6 text-center shadow-inner">
-                                <div className="text-7xl mb-3 animate-bounce">{isHatched ? '🐥' : '🥚'}</div>
-                                <div className="text-xs font-black text-slate-800 mb-2">たまごの成長ゲージ</div>
+                            <div className="bg-amber-50 border-3 border-slate-800 rounded-3xl p-6 text-center shadow-inner space-y-3">
+                                <CuteHatchling hatItem={isHatched ? '🧋' : null} bgStyle={activeBg} />
+                                <div className="text-xs font-black text-slate-800">たまごの成長ゲージ</div>
                                 <div className="w-full bg-white border-2 border-slate-800 rounded-full h-5 overflow-hidden p-0.5">
                                     <div className="bg-orange-500 h-full rounded-full transition-all duration-500" style={{ width: `${eggExp}%` }}></div>
                                 </div>
-                                <div className="text-xs font-bold text-slate-800 mt-2">{eggExp} / 100 EXP</div>
+                                <div className="text-xs font-bold text-slate-800">{eggExp} / 100 EXP</div>
 
                                 {eggExp >= 100 && !isHatched && (
                                     <button 
                                         onClick={handleHatchCheck}
-                                        className="mt-4 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-black rounded-2xl border-2 border-slate-800 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] animate-pulse text-sm"
+                                        className="mt-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-black rounded-2xl border-2 border-slate-800 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] animate-pulse text-sm"
                                     >
                                         🎉 たまごを孵化させる！
                                     </button>
@@ -734,11 +867,11 @@
                             </div>
 
                             <div>
-                                <h3 className="text-xs font-black uppercase tracking-wider mb-3">🎁 獲得した特典コレクション ({rewards.length})</h3>
+                                <h3 className="text-xs font-black uppercase tracking-wider mb-3">🎁 獲得した台湾アイテムコレクション ({rewards.length})</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {rewards.map((r, i) => (
                                         <div key={i} className="bg-amber-100 border-2 border-slate-800 rounded-2xl p-3 text-xs font-bold text-slate-900 flex items-center gap-2 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">
-                                            <span>⭐</span>
+                                            <span>🧋</span>
                                             <span>{r}</span>
                                         </div>
                                     ))}
@@ -840,7 +973,7 @@
                                 {searchResult && <div className="text-xs text-rose-600 font-bold mt-2">{searchResult}</div>}
                             </form>
 
-                            {/* トリ先生の最新台湾トリビア（タップでAIが新しい情報をピックアップ） */}
+                            {/* トリ先生の最新台湾トリビア */}
                             <div className="bg-amber-100 border-3 border-slate-800 rounded-3xl p-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex items-start gap-3 relative cursor-pointer" onClick={changeTip}>
                                 <div className="w-12 h-12 bg-amber-300 rounded-full border-2 border-slate-800 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
                                     <ToriAvatar />
@@ -892,19 +1025,29 @@
                                     </button>
 
                                     {showExplanation && (
-                                        <div className="mt-3 bg-amber-50 border-2 border-slate-800 rounded-2xl p-4 text-xs font-bold text-slate-900 leading-relaxed shadow-inner">
-                                            <p className="font-black text-orange-600 mb-1">🎓 トリ先生のシンプル解説ピヨ！</p>
-                                            基本の型（<span className="underline">{selectedPattern.formula}</span>）の「〜」に単語を入れ替えるだけで完璧に通じるよ！単語をタップすると「単語だけの発音」も聞けるから耳を慣らしてみてね！
+                                        <div className="mt-3 bg-amber-50 border-2 border-slate-800 rounded-2xl p-4 text-xs font-bold text-slate-900 leading-relaxed shadow-inner space-y-2">
+                                            <p className="font-black text-orange-600">🎓 トリ先生の特別解説ピヨ！</p>
+                                            <p>基本の型（<span className="underline">{selectedPattern.formula}</span>）に単語を入れ替えて完璧に通じるよ！</p>
+                                            {selectedPattern.id === 7 && (
+                                                <p className="bg-white p-2 rounded-xl border border-slate-800 text-[11px]">
+                                                    ✨ <b>「到」のポイント解説：</b>「到（dào）」は「〜まで」という意味を表す超重要ワード！「早餐到幾點？」で「朝ごはんは何時まで？」と尋ねることができます！
+                                                </p>
+                                            )}
                                         </div>
                                     )}
                                 </div>
                             </div>
 
-                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン） */}
+                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン ＆ 新規単語登録ボタン） */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3 flex items-center justify-between">
-                                    <span>👇 単語をタップして入れ替え（カラフル連動）</span>
-                                    <span className="text-[10px] text-orange-600 bg-amber-100 px-2 py-0.5 rounded border border-slate-800">タップで単語音声</span>
+                                    <span>👇 単語をタップして入れ替え</span>
+                                    <button 
+                                        onClick={() => setIsAddingCustomWord(true)}
+                                        className="text-[10px] bg-orange-500 text-white px-2.5 py-1 rounded-xl border border-slate-800 font-black shadow-[1px_1px_0px_0px_rgba(15,23,42,1)]"
+                                    >
+                                        ＋ 新しい単語を登録
+                                    </button>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                                     {selectedPattern.words.map((w, idx) => {
@@ -913,7 +1056,7 @@
                                             <button
                                                 key={idx}
                                                 onClick={() => handleWordSelect(w)}
-                                                className={`p-3 rounded-2xl border-2 transition active:translate-y-0.5 text-left ${w.color} ${
+                                                className={`p-3 rounded-2xl border-2 transition active:translate-y-0.5 text-left ${w.color || 'bg-amber-100 text-slate-900 border-slate-300'} ${
                                                     isSelected 
                                                         ? 'ring-4 ring-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-black scale-105' 
                                                         : 'shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-bold'
@@ -933,7 +1076,7 @@
                                     🎯 10の基本型を選ぶ
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                    {CORE_PATTERNS.map((pattern) => {
+                                    {corePatterns.map((pattern) => {
                                         const isSelected = selectedPattern.id === pattern.id;
                                         return (
                                             <button
