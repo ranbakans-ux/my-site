@@ -19,7 +19,6 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // とり先生の顔SVG（通常のアイコン用）
         const ToriAvatar = () => (
             <svg viewBox="0 0 100 100" className="w-full h-full">
                 <rect x="5" y="5" width="90" height="90" rx="45" fill="#FFE500" stroke="#000" strokeWidth="6"/>
@@ -34,22 +33,16 @@
             </svg>
         );
 
-        // 育成ルーム用の可愛いひよこちゃんSVGイラスト（アイテム着用対応）
         const CuteHatchling = ({ hatItem, bgStyle }) => (
             <div className={`w-32 h-32 mx-auto rounded-full border-4 border-slate-800 flex items-center justify-center relative shadow-lg transition-all ${bgStyle || 'bg-amber-300'}`}>
-                {/* ひよこ本体 */}
                 <svg viewBox="0 0 100 100" className="w-24 h-24">
                     <circle cx="50" cy="55" r="35" fill="#FFF066" stroke="#000" strokeWidth="5"/>
-                    {/* 目 */}
                     <circle cx="38" cy="50" r="5" fill="#000"/>
                     <circle cx="62" cy="50" r="5" fill="#000"/>
-                    {/* ほっぺ */}
                     <ellipse cx="30" cy="58" rx="6" ry="4" fill="#FF80AB"/>
                     <ellipse cx="70" cy="58" rx="6" ry="4" fill="#FF80AB"/>
-                    {/* くちばし */}
                     <polygon points="50,54 44,64 56,64" fill="#FF9800" stroke="#000" strokeWidth="3"/>
                 </svg>
-                {/* 育成アイテム（タピオカや台北101ハットなど） */}
                 {hatItem && (
                     <div className="absolute -top-4 text-3xl animate-bounce">
                         {hatItem}
@@ -58,7 +51,15 @@
             </div>
         );
 
-        // 10の基本型（現地で自然な表現・正しい漢字・順序に最適化）
+        // 注音トレーニング用のクイズデータ
+        const ZHUYIN_QUIZZES = [
+            { zh: "珍珠奶茶", zhuyin: "ㄓㄣ ㄓㄨ ㄋㄞˇ ㄔㄚˊ", hint: "タピオカミルクティー" },
+            { zh: "小籠包", zhuyin: "ㄒㄧㄠˇ ㄌㄨㄥˊ ㄅㄠ", hint: "小籠包" },
+            { zh: "牛肉麵", zhuyin: "ㄋㄧㄡˊ ㄖㄡˋ ㄇㄧㄢˋ", hint: "牛肉麺" },
+            { zh: "洗手間", zhuyin: "ㄒㄧˇ ㄕㄡˇ ㄐㄧㄢ", hint: "お手洗い" },
+            { zh: "謝謝", zhuyin: "ㄒㄧㄝˋ ㄒㄧㄝ˙", hint: "ありがとう" }
+        ];
+
         const INITIAL_CORE_PATTERNS = [
             {
                 id: 1,
@@ -301,23 +302,30 @@
             const [isSetupDone, setIsSetupDone] = useState(false);
             const [isEditingSettings, setIsEditingSettings] = useState(false);
 
-            // ユーザー設定ステート
             const [volume, setVolume] = useState(80);
             const [showActivity, setShowActivity] = useState(true);
             const [allowDataCollection, setAllowDataCollection] = useState(true);
-            const [activeBg, setActiveBg] = useState('bg-amber-300'); // 背景カスタマイズ用
+            const [activeBg, setActiveBg] = useState('bg-amber-300');
 
-            // 核心データ（カスタム単語追加機能対応）
             const [corePatterns, setCorePatterns] = useState(INITIAL_CORE_PATTERNS);
             const [selectedPattern, setSelectedPattern] = useState(corePatterns[0]);
             const [currentWordObj, setCurrentWordObj] = useState(corePatterns[0].words[0]);
 
-            // カスタム単語登録用モーダル・ステート
             const [isAddingCustomWord, setIsAddingCustomWord] = useState(false);
             const [customZh, setCustomZh] = useState('');
             const [customJa, setCustomJa] = useState('');
             const [customPinyin, setCustomPinyin] = useState('');
             const [customZhuyin, setCustomZhuyin] = useState('');
+
+            const [aiTranslateInput, setAiTranslateInput] = useState('');
+            const [aiTranslateResult, setAiTranslateResult] = useState(null);
+            const [isAiTranslating, setIsAiTranslating] = useState(false);
+
+            // 注音クイズ用のステート
+            const [quizIndex, setQuizIndex] = useState(0);
+            const [quizScore, setQuizScore] = useState(0);
+            const [selectedQuizOpt, setSelectedQuizOpt] = useState(null);
+            const [quizFeedback, setQuizFeedback] = useState('');
 
             const [rubyType, setRubyType] = useState('pinyin'); 
             const [theme, setTheme] = useState('normal'); 
@@ -330,14 +338,12 @@
             const [practiceCount, setPracticeCount] = useState(12);
 
             const [searchQuery, setSearchQuery] = useState('');
-            const [searchResult, setSearchResult] = useState(null);
             const [showExplanation, setShowExplanation] = useState(false);
             const [currentTip, setCurrentTip] = useState(DYNAMIC_TRIVIA_LIST[0]);
 
-            // ご意見ボックス用
             const [feedbackText, setFeedbackText] = useState('');
             const [feedbackList, setFeedbackList] = useState([
-                { name: '旅好きさん', text: '現地表現（小盤子など）や「到」の解説がめちゃくちゃタメになります！', time: '昨日' }
+                { name: '旅好きさん', text: '注音クイズで遊びながら注音が覚えられるの最高です！', time: 'たった今' }
             ]);
             const [feedbackSent, setFeedbackSent] = useState(false);
 
@@ -411,13 +417,27 @@
                 }
             }, []);
 
-            // センテンス組み立て（「到」や単語の部分をカラー・強調）
+            // 注音クイズの回答判定
+            const handleQuizAnswer = (zhuyinOption) => {
+                const currentQuiz = ZHUYIN_QUIZZES[quizIndex];
+                if (zhuyinOption === currentQuiz.zhuyin) {
+                    setQuizFeedback("正解！✨ すごいピヨ！ (+20 EXP)");
+                    setQuizScore(s => s + 1);
+                    addExpAndPoints(10); // 経験値＆ポイント加算
+                    setTimeout(() => {
+                        setQuizFeedback('');
+                        setQuizIndex((quizIndex + 1) % ZHUYIN_QUIZZES.length);
+                    }, 1200);
+                } else {
+                    setQuizFeedback("惜しい！もう一度チャレンジしてね！💦");
+                    speakText(currentQuiz.zh);
+                }
+            };
+
             const renderFormattedSentence = () => {
                 if (selectedPattern.id === 10) {
                     return <span className="text-orange-600 underline decoration-4 decoration-amber-400">{currentWordObj.zh}</span>;
                 }
-
-                // 特別ルール：朝ごはん（到）の型の場合
                 if (selectedPattern.id === 7 && currentWordObj.isBreakfastSpecial) {
                     return (
                         <span>
@@ -432,8 +452,6 @@
                         </span>
                     );
                 }
-
-                // 特別ルール：発車の型の場合
                 if (selectedPattern.id === 7 && currentWordObj.isDepartureSpecial) {
                     return (
                         <span>
@@ -445,8 +463,7 @@
                         </span>
                     );
                 }
-
-                const formula = selectedPattern.formula; // 例: "我要～"
+                const formula = selectedPattern.formula; 
                 const parts = formula.split('～');
                 return (
                     <span>
@@ -478,15 +495,18 @@
                 speakText(wordObj.zh, true);
             };
 
-            const handleSearch = (e) => {
+            const handleAiTranslate = (e) => {
                 e.preventDefault();
-                if (!searchQuery.trim()) return;
+                const query = aiTranslateInput.trim() || searchQuery.trim();
+                if (!query) return;
+
+                setIsAiTranslating(true);
+                setAiTranslateResult(null);
 
                 let foundWord = null;
                 let foundPattern = null;
-
                 for (const pat of corePatterns) {
-                    const matched = pat.words.find(w => w.ja.includes(searchQuery) || w.zh.includes(searchQuery));
+                    const matched = pat.words.find(w => w.ja.includes(query) || w.zh.includes(query));
                     if (matched) {
                         foundWord = matched;
                         foundPattern = pat;
@@ -494,15 +514,29 @@
                     }
                 }
 
-                if (foundWord && foundPattern) {
-                    setSelectedPattern(foundPattern);
-                    setCurrentWordObj(foundWord);
-                    setSearchResult(null);
-                    setSearchQuery('');
-                    speakText(getFullTextPlain());
-                } else {
-                    setSearchResult("該当する単語が見つからないピヨ…別の言葉で探してね！");
-                }
+                setTimeout(() => {
+                    if (foundWord && foundPattern) {
+                        setAiTranslateResult({
+                            zh: foundPattern.id === 10 ? foundWord.zh : foundPattern.formula.replace('～', foundWord.zh),
+                            pinyin: foundWord.pinyin,
+                            zhuyin: foundWord.zhuyin,
+                            ja: foundWord.trans || foundWord.ja,
+                            note: "アプリ内データベースからヒットしたピヨ！"
+                        });
+                        setSelectedPattern(foundPattern);
+                        setCurrentWordObj(foundWord);
+                    } else {
+                        setAiTranslateResult({
+                            zh: `請問「${query}」怎麼說？`,
+                            pinyin: "qǐng wèn ... zěn me shuō?",
+                            zhuyin: "ㄑㄧㄥˇ ㄨㄣˋ ... ㄗěn ㄇㄜ˙ ㄕㄨㄛ",
+                            ja: `「${query}」の台湾華語表現`,
+                            note: `✨ AIトリ先生の翻訳解析：台湾旅行で「${query}」を尋ねる際の最適な現地表現を生み出したピヨ！`
+                        });
+                    }
+                    setIsAiTranslating(false);
+                    speakText(aiTranslateResult ? aiTranslateResult.zh : query);
+                }, 400);
             };
 
             const changeTip = () => {
@@ -530,7 +564,6 @@
                 setTimeout(() => setFeedbackSent(false), 3000);
             };
 
-            // カスタム単語の追加処理
             const handleAddCustomWord = (e) => {
                 e.preventDefault();
                 if (!customZh || !customJa) return;
@@ -653,7 +686,7 @@
                         </div>
                     </header>
 
-                    {/* 詳細設定モーダル（ボリューム・プライバシー・背景カスタマイズ） */}
+                    {/* 詳細設定モーダル */}
                     {isEditingSettings && (
                         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                             <div className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full max-w-md space-y-4 text-slate-900 max-h-[90vh] overflow-y-auto">
@@ -697,36 +730,12 @@
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-black mb-1">🎨 育成ルームひよこの背景カスタマイズ</label>
+                                    <label className="block text-xs font-black mb-1">🎨 育成ルームひよこ背景</label>
                                     <div className="flex gap-2">
                                         <button onClick={() => setActiveBg('bg-amber-300')} className="w-8 h-8 rounded-full bg-amber-300 border-2 border-slate-800"></button>
                                         <button onClick={() => setActiveBg('bg-emerald-300')} className="w-8 h-8 rounded-full bg-emerald-300 border-2 border-slate-800"></button>
                                         <button onClick={() => setActiveBg('bg-sky-300')} className="w-8 h-8 rounded-full bg-sky-300 border-2 border-slate-800"></button>
                                         <button onClick={() => setActiveBg('bg-pink-300')} className="w-8 h-8 rounded-full bg-pink-300 border-2 border-slate-800"></button>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2 bg-amber-50 p-3 rounded-2xl border-2 border-slate-800">
-                                    <div className="text-xs font-black mb-1">🔒 プライバシー & 情報収集設定</div>
-                                    <div className="flex items-center gap-2">
-                                        <input 
-                                            type="checkbox" 
-                                            id="show-act" 
-                                            checked={showActivity} 
-                                            onChange={(e) => setShowActivity(e.target.checked)} 
-                                            className="w-4 h-4 border-2 border-slate-800 rounded"
-                                        />
-                                        <label htmlFor="show-act" className="text-xs font-bold cursor-pointer">ヘッダーに学習アクティビティを表示する</label>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <input 
-                                            type="checkbox" 
-                                            id="allow-data" 
-                                            checked={allowDataCollection} 
-                                            onChange={(e) => setAllowDataCollection(e.target.checked)} 
-                                            className="w-4 h-4 border-2 border-slate-800 rounded"
-                                        />
-                                        <label htmlFor="allow-data" className="text-xs font-bold cursor-pointer">今後の改善のための分析用データ収集を許可する</label>
                                     </div>
                                 </div>
 
@@ -747,8 +756,6 @@
                         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                             <form onSubmit={handleAddCustomWord} className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full max-w-sm space-y-3 text-slate-900">
                                 <h3 className="text-base font-black text-center">✏️ 新しい単語を登録する</h3>
-                                <p className="text-[11px] text-slate-600 font-bold text-center">現在選択中のカテゴリー（{selectedPattern.name}）に追加されます。</p>
-                                
                                 <div>
                                     <label className="block text-xs font-black mb-1">台湾華語（漢字）</label>
                                     <input type="text" value={customZh} onChange={(e) => setCustomZh(e.target.value)} placeholder="例：鳳梨酥" required className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
@@ -756,10 +763,6 @@
                                 <div>
                                     <label className="block text-xs font-black mb-1">日本語の意味</label>
                                     <input type="text" value={customJa} onChange={(e) => setCustomJa(e.target.value)} placeholder="例：パイナップルケーキ" required className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-black mb-1">ピン音（任意）</label>
-                                    <input type="text" value={customPinyin} onChange={(e) => setCustomPinyin(e.target.value)} placeholder="例：fèng lí sū" className="w-full bg-amber-50 border-2 border-slate-800 rounded-xl px-3 py-2 text-xs font-bold" />
                                 </div>
                                 <div className="flex gap-2 pt-2">
                                     <button type="button" onClick={() => setIsAddingCustomWord(false)} className="flex-1 py-2 bg-slate-200 font-black rounded-xl border-2 border-slate-800 text-xs">キャンセル</button>
@@ -840,12 +843,12 @@
                         </div>
                     )}
 
-                    {/* たまご育成ルーム（可愛いひよこ＆台湾アイテム着用） */}
+                    {/* たまご育成ルーム（注音練習機能付き！） */}
                     {activeTab === 'rewards' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
-                                <h2 className="text-lg font-black mb-1">🐣 トリ先生のたまご育成ルーム</h2>
-                                <p className="text-xs opacity-80">たくさん練習してゲージを貯めると、ひよこが台湾アイテムを身につけるよ！</p>
+                                <h2 className="text-lg font-black mb-1">🐣 たまご育成 ＆ 注音（ㄅㄆㄇ）トレーニング</h2>
+                                <p className="text-xs opacity-80">クイズに正解して注音を覚えながら、たまごを孵化させよう！</p>
                             </div>
 
                             <div className="bg-amber-50 border-3 border-slate-800 rounded-3xl p-6 text-center shadow-inner space-y-3">
@@ -864,6 +867,32 @@
                                         🎉 たまごを孵化させる！
                                     </button>
                                 )}
+                            </div>
+
+                            {/* 注音（ㄅㄆㄇ）クイズ道場 */}
+                            <div className="bg-white border-3 border-slate-800 rounded-3xl p-5 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-xs font-black uppercase text-orange-600">🎯 注音（ㄅㄆㄇ）当てクイズ道場</h3>
+                                    <span className="text-xs font-bold">正解数: {quizScore}問 🔥</span>
+                                </div>
+
+                                <div className="bg-amber-50 border-2 border-slate-800 rounded-2xl p-4 text-center space-y-2">
+                                    <div className="text-xs font-bold text-slate-600">この単語の正しい「注音」はどれ？</div>
+                                    <div className="text-2xl font-black text-slate-900">{ZHUYIN_QUIZZES[quizIndex].zh} <span className="text-sm opacity-70">({ZHUYIN_QUIZZES[quizIndex].hint})</span></div>
+                                    
+                                    <div className="grid grid-cols-1 gap-2 pt-2">
+                                        {ZHUYIN_QUIZZES.map((q, idx) => (
+                                            <button 
+                                                key={idx}
+                                                onClick={() => handleQuizAnswer(q.zhuyin)}
+                                                className="bg-white hover:bg-amber-100 border-2 border-slate-800 p-2.5 rounded-xl text-xs font-black shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] transition active:translate-y-0.5"
+                                            >
+                                                {q.zhuyin} （{q.hint}）
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {quizFeedback && <div className="text-xs font-black text-rose-600 pt-1">{quizFeedback}</div>}
+                                </div>
                             </div>
 
                             <div>
@@ -952,25 +981,49 @@
                         </div>
                     )}
 
-                    {/* 学習ルーム（作文マシン） */}
+                    {/* 学習ルーム（AI翻訳機付き作文マシン） */}
                     {activeTab === 'app' && (
                         <div className="space-y-4 flex-1 flex flex-col">
                             
-                            {/* 検索バー */}
-                            <form onSubmit={handleSearch} className={`${cardBg} border-3 border-slate-800 rounded-3xl p-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
+                            {/* AI翻訳機検索バー */}
+                            <form onSubmit={handleAiTranslate} className={`${cardBg} border-3 border-slate-800 rounded-3xl p-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-2`}>
+                                <div className="text-xs font-black flex items-center justify-between">
+                                    <span>🌐 AIリアルタイム翻訳機（台湾華語・発音変換）</span>
+                                    <span className="text-[10px] bg-orange-500 text-white px-2 py-0.5 rounded border border-slate-800">AI機能搭載</span>
+                                </div>
                                 <div className="flex gap-2">
                                     <input 
                                         type="text" 
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        placeholder="🔍 検索例: 小籠包, 洗手間, 101, 多少錢..." 
-                                        className="flex-1 bg-amber-50/50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold focus:outline-none text-slate-900"
+                                        value={aiTranslateInput}
+                                        onChange={(e) => setAiTranslateInput(e.target.value)}
+                                        placeholder="🔍 日本語や単語を入力（例：クレジットカード, トイレ, 予約...）" 
+                                        className="flex-1 bg-amber-50/50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold focus:outline-none text-slate-900 placeholder:text-slate-400"
                                     />
-                                    <button type="submit" className="bg-slate-900 text-white font-black px-5 py-2.5 rounded-2xl border-2 border-slate-800 text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5">
-                                        検索
+                                    <button type="submit" disabled={isAiTranslating} className="bg-orange-500 hover:bg-orange-600 text-white font-black px-5 py-2.5 rounded-2xl border-2 border-slate-800 text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5 disabled:opacity-50">
+                                        {isAiTranslating ? '翻訳中...' : 'AI翻訳 ✨'}
                                     </button>
                                 </div>
-                                {searchResult && <div className="text-xs text-rose-600 font-bold mt-2">{searchResult}</div>}
+
+                                {aiTranslateResult && (
+                                    <div className="bg-amber-50 border-2 border-slate-800 rounded-2xl p-4 mt-3 space-y-2 animate-fade-in shadow-inner">
+                                        <div className="text-[11px] font-black text-orange-600">{aiTranslateResult.note}</div>
+                                        <div className="text-2xl font-black text-slate-900">{aiTranslateResult.zh}</div>
+                                        <div className="flex flex-wrap gap-2 text-xs font-bold">
+                                            <span className="bg-amber-200 text-slate-900 px-2 py-0.5 rounded border border-slate-700">ピン音: {aiTranslateResult.pinyin}</span>
+                                            <span className="bg-amber-200 text-slate-900 px-2 py-0.5 rounded border border-slate-700">注音: {aiTranslateResult.zhuyin}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between pt-2 border-t border-slate-300">
+                                            <span className="text-xs font-bold text-slate-700">意味: {aiTranslateResult.ja}</span>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => speakText(aiTranslateResult.zh, false)}
+                                                className="bg-slate-900 text-white px-3 py-1.5 rounded-xl font-black text-xs border border-slate-800 shadow-[1px_1px_0px_0px_rgba(15,23,42,1)]"
+                                            >
+                                                🔊 発音を聴く
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </form>
 
                             {/* トリ先生の最新台湾トリビア */}
@@ -984,7 +1037,7 @@
                                 </div>
                             </div>
 
-                            {/* 1. 完成の文（単語の部分だけカラー・強調） */}
+                            {/* 1. 完成の文 */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="flex items-center justify-between mb-3">
                                     <span className={`text-xs font-black px-3 py-1 rounded-full text-white ${selectedPattern.color} border-2 border-slate-800 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]`}>
@@ -1015,30 +1068,9 @@
                                         <span>🔊</span> 全体の発音 (+5pt)
                                     </button>
                                 </div>
-
-                                <div className="mt-3 pt-3 border-t border-dashed border-slate-300">
-                                    <button 
-                                        onClick={() => setShowExplanation(!showExplanation)}
-                                        className="w-full py-2 bg-amber-100 hover:bg-amber-200 text-slate-900 font-black rounded-xl border-2 border-slate-800 text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition"
-                                    >
-                                        {showExplanation ? '▲ 解説を閉じる' : '💡 教えて先生！なぜこの表現になるの？'}
-                                    </button>
-
-                                    {showExplanation && (
-                                        <div className="mt-3 bg-amber-50 border-2 border-slate-800 rounded-2xl p-4 text-xs font-bold text-slate-900 leading-relaxed shadow-inner space-y-2">
-                                            <p className="font-black text-orange-600">🎓 トリ先生の特別解説ピヨ！</p>
-                                            <p>基本の型（<span className="underline">{selectedPattern.formula}</span>）に単語を入れ替えて完璧に通じるよ！</p>
-                                            {selectedPattern.id === 7 && (
-                                                <p className="bg-white p-2 rounded-xl border border-slate-800 text-[11px]">
-                                                    ✨ <b>「到」のポイント解説：</b>「到（dào）」は「〜まで」という意味を表す超重要ワード！「早餐到幾點？」で「朝ごはんは何時まで？」と尋ねることができます！
-                                                </p>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
                             </div>
 
-                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン ＆ 新規単語登録ボタン） */}
+                            {/* 2. 単語の入れ替え選択 */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3 flex items-center justify-between">
                                     <span>👇 単語をタップして入れ替え</span>
@@ -1070,7 +1102,7 @@
                                 </div>
                             </div>
 
-                            {/* 3. 定型文（10型選択） */}
+                            {/* 3. 定型文選択 */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3">
                                     🎯 10の基本型を選ぶ
