@@ -19,7 +19,22 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // 10の基本型と各10単語（色とIDが連動）
+        // とり先生の顔SVG（アイコン用）
+        const ToriAvatar = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <rect x="5" y="5" width="90" height="90" rx="45" fill="#FFE500" stroke="#000" strokeWidth="6"/>
+                <rect x="23" y="26" width="14" height="7" rx="3.5" fill="#000"/>
+                <rect x="63" y="26" width="14" height="7" rx="3.5" fill="#000"/>
+                <circle cx="34" cy="40" r="17" fill="none" stroke="#000" strokeWidth="5"/>
+                <circle cx="66" cy="40" r="17" fill="none" stroke="#000" strokeWidth="5"/>
+                <line x1="51" y1="40" x2="49" y2="40" stroke="#000" strokeWidth="5"/>
+                <circle cx="34" cy="40" r="4" fill="#000"/>
+                <circle cx="66" cy="40" r="4" fill="#000"/>
+                <ellipse cx="50" cy="62" rx="14" ry="9" fill="#FF2D55" stroke="#000" strokeWidth="4"/>
+            </svg>
+        );
+
+        // 10の基本型と各10単語
         const CORE_PATTERNS = [
             {
                 id: 1,
@@ -229,25 +244,19 @@
             const [theme, setTheme] = useState('normal'); 
             const [activeTab, setActiveTab] = useState('app'); 
 
-            // ゲーミフィケーション（たまご育成＆質問チケット）
             const [points, setPoints] = useState(225);
-            const [eggExp, setEggExp] = useState(80); // すぐ孵化体験できるように80スタート
-            const [hasQuestionTicket, setHasQuestionTicket] = useState(false);
+            const [eggExp, setEggExp] = useState(80); 
             const [rewards, setRewards] = useState(['とり先生の特製めがね①']);
 
-            // 検索 & 先生解説
             const [searchQuery, setSearchQuery] = useState('');
             const [searchResult, setSearchResult] = useState(null);
             const [showExplanation, setShowExplanation] = useState(false);
             const [currentTip, setCurrentTip] = useState(TIPS_LIST[0]);
 
-            // チャットルーム用
-            const [chatCategory, setChatCategory] = useState('teacher'); // 'teacher' | 'general'
-            const [teacherMessages, setTeacherMessages] = useState([
-                { sender: 'とり先生', text: 'たまごを孵化させて質問チケットを手に入れると、この部屋で私（とり先生）が台湾華語や旅行の疑問に直接答えるピヨ！🐣', time: '12:00' }
-            ]);
-            const [generalMessages, setGeneralMessages] = useState([
-                { sender: '旅仲間Bさん', text: '来月台北に行きます！オススメの夜市を教えてください！', time: '12:05' }
+            // ピヨ友ルーム（ユーザー同士の交流用）
+            const [piyotomMessages, setPiyotomMessages] = useState([
+                { sender: '旅仲間Aさん', text: '来週台北に行きます！おすすめの牛肉麺屋さん教えてください！', time: '12:00' },
+                { sender: '旅仲間Bさん', text: '西門町にあるお店がすごく美味しかったですよ！', time: '12:05' }
             ]);
             const [inputMessage, setInputMessage] = useState('');
 
@@ -263,29 +272,49 @@
                 setPoints(p => p + amt);
                 setEggExp(e => {
                     const next = e + amt * 2;
-                    if (next >= 100 && !hasQuestionTicket) {
-                        setHasQuestionTicket(true);
-                        alert("🎉 おめでとうございます！たまごが孵化して『とり先生の質問チケット』をゲットしましたピヨ！🐣\nこれでとり先生に直接質問できるようになりました！");
-                        setRewards(r => [...r, '🎓 とり先生の質問チケット']);
-                        return 100;
+                    if (next >= 100) {
+                        alert("🎉 おめでとうございます！たまごが孵化して新しい特典アイテムをゲットしましたピヨ！🐣");
+                        setRewards(r => [...r, `とり先生の限定バッジ #${r.length + 1}`]);
+                        return 0;
                     }
-                    return next >= 100 ? 100 : next;
+                    return next;
                 });
             };
 
+            // Googleの綺麗な女性音声（台湾華語: zh-TW）を優先選択して読み上げる関数
             const speakText = (text, isWordOnly = false) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'zh-TW'; 
                     utterance.rate = 0.85;
-                    utterance.pitch = 1.0;
+                    utterance.pitch = 1.1; // 明るく綺麗な女性トーン
+
+                    const voices = window.speechSynthesis.getVoices();
+                    const googleFemaleVoice = voices.find(v => v.lang === 'zh-TW' && (v.name.includes('Google') || v.name.includes('Female') || v.name.includes('Mei-Jia') || v.name.includes('Yaoyao')));
+                    const twVoice = voices.find(v => v.lang === 'zh-TW');
+
+                    if (googleFemaleVoice) {
+                        utterance.voice = googleFemaleVoice;
+                    } else if (twVoice) {
+                        utterance.voice = twVoice;
+                    }
+
                     window.speechSynthesis.speak(utterance);
                     addExpAndPoints(isWordOnly ? 3 : 5);
                 } else {
                     alert("お使いのブラウザは音声読み上げに対応していませんピヨ。");
                 }
             };
+
+            useEffect(() => {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.getVoices();
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        window.speechSynthesis.getVoices();
+                    };
+                }
+            }, []);
 
             const getFullSentence = () => {
                 if (selectedPattern.id === 10) {
@@ -338,45 +367,13 @@
                 setCurrentTip(TIPS_LIST[randomIdx]);
             };
 
-            // AIとり先生の自動回答（学習・旅行の質問以外はフィルタリング）
-            const handleSendMessage = (e) => {
+            const handleSendPiyotomMessage = (e) => {
                 e.preventDefault();
                 if (!inputMessage.trim()) return;
                 const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                const userMsg = { sender: 'あなた', text: inputMessage, time: timeStr };
-
-                if (chatCategory === 'teacher') {
-                    if (!hasQuestionTicket) {
-                        alert("🔒 まずは学習ルームで練習してたまごを孵化させ、『質問チケット』を手に入れてね！");
-                        return;
-                    }
-
-                    setTeacherMessages(prev => [...prev, userMsg]);
-                    const queryText = inputMessage;
-                    setInputMessage('');
-
-                    // AIとり先生による自動応答（学習・旅行判定）
-                    setTimeout(() => {
-                        let aiReplyText = "";
-                        const lower = queryText.toLowerCase();
-                        
-                        // 台湾華語や旅行に関連するかどうかを判定
-                        const isTravelOrLanguage = lower.includes("台湾") || lower.includes("中国語") || lower.includes("華語") || lower.includes("旅行") || lower.includes("観光") || lower.includes("ホテル") || lower.includes("夜市") || lower.includes("美味しい") || lower.includes("おすすめ") || lower.includes("発音") || lower.includes("行く") || lower.includes("幾点") || lower.includes("多少錢");
-
-                        if (isTravelOrLanguage) {
-                            aiReplyText = `ピヨッ！素晴らしい質問だね！「${queryText}」について、とり先生が解説するよ！台湾旅行では現地の言葉やマナーを少し知っているだけで何倍も楽しくなるんだ。作文マシンの型も活用して現地でぜひ使ってみてね！🐣`;
-                        } else {
-                            aiReplyText = `ピヨッ！？それは台湾華語や旅行の勉強とは関係ないお話だピヨ！💦 台湾旅行をもっと楽しくするための言葉の質問や、美味しいものの相談をしてくれたら嬉しいな！🐣`;
-                        }
-
-                        const teacherReply = { sender: 'とり先生 (AI)', text: aiReplyText, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
-                        setTeacherMessages(prev => [...prev, teacherReply]);
-                    }, 1000);
-
-                } else {
-                    setGeneralMessages(prev => [...prev, userMsg]);
-                    setInputMessage('');
-                }
+                const newMsg = { sender: 'あなた', text: inputMessage, time: timeStr };
+                setPiyotomMessages(prev => [...prev, newMsg]);
+                setInputMessage('');
             };
 
             const renderRuby = (wordObj) => {
@@ -391,17 +388,7 @@
                     <header className={`${cardBg} border-3 border-slate-800 rounded-3xl p-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex items-center justify-between mb-4`}>
                         <div className="flex items-center space-x-3">
                             <div className="w-16 h-16 bg-amber-300 rounded-full border-3 border-slate-800 flex items-center justify-center overflow-hidden shadow-md shrink-0">
-                                <svg viewBox="0 0 100 100" className="w-full h-full">
-                                    <rect x="5" y="5" width="90" height="90" rx="45" fill="#FFE500" stroke="#000" strokeWidth="6"/>
-                                    <rect x="23" y="26" width="14" height="7" rx="3.5" fill="#000"/>
-                                    <rect x="63" y="26" width="14" height="7" rx="3.5" fill="#000"/>
-                                    <circle cx="34" cy="40" r="17" fill="none" stroke="#000" strokeWidth="5"/>
-                                    <circle cx="66" cy="40" r="17" fill="none" stroke="#000" strokeWidth="5"/>
-                                    <line x1="51" y1="40" x2="49" y2="40" stroke="#000" strokeWidth="5"/>
-                                    <circle cx="34" cy="40" r="4" fill="#000"/>
-                                    <circle cx="66" cy="40" r="4" fill="#000"/>
-                                    <ellipse cx="50" cy="62" rx="14" ry="9" fill="#FF2D55" stroke="#000" strokeWidth="4"/>
-                                </svg>
+                                <ToriAvatar />
                             </div>
                             <div>
                                 <h1 className="text-base font-black tracking-tight">
@@ -415,7 +402,7 @@
 
                         <div className="flex flex-col items-end gap-2">
                             <div className="bg-orange-500 border-2 border-slate-800 px-3 py-1 rounded-xl text-xs font-black text-white shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">
-                                🪙 {points} pt {hasQuestionTicket && '🎟️ 質問券有'}
+                                🪙 {points} pt
                             </div>
                             <div className="flex items-center gap-1">
                                 <button onClick={() => setTheme('normal')} className={`px-2 py-0.5 rounded text-[10px] font-bold border border-slate-800 ${theme === 'normal' ? 'bg-amber-400 text-slate-900' : 'bg-white text-slate-600'}`}>ノーマル</button>
@@ -437,13 +424,13 @@
                             onClick={() => setActiveTab('rewards')}
                             className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'rewards' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
                         >
-                            🥚 たまご育成 {hasQuestionTicket ? '✨孵化済' : ''}
+                            🥚 たまご育成
                         </button>
                         <button 
-                            onClick={() => setActiveTab('chat')}
-                            className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'chat' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
+                            onClick={() => setActiveTab('piyotom')}
+                            className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'piyotom' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
                         >
-                            💬 AIとり先生相談室
+                            💬 ピヨ友ルーム
                         </button>
                     </div>
 
@@ -452,16 +439,16 @@
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
                                 <h2 className="text-lg font-black mb-1">🐣 とり先生のたまご育成ルーム</h2>
-                                <p className="text-xs opacity-80">たくさん発音して練習するとたまごが育ち、AIとり先生への質問チケットがもらえるピヨ！</p>
+                                <p className="text-xs opacity-80">たくさん発音して練習するとたまごが育ち、楽しい特典がもらえるピヨ！</p>
                             </div>
 
                             <div className="bg-amber-50 border-3 border-slate-800 rounded-3xl p-6 text-center shadow-inner">
-                                <div className="text-7xl mb-3 animate-bounce">{eggExp >= 100 ? '🐥' : '🥚'}</div>
+                                <div className="text-7xl mb-3 animate-bounce">🥚</div>
                                 <div className="text-xs font-black text-slate-800 mb-2">たまごの成長ゲージ</div>
                                 <div className="w-full bg-white border-2 border-slate-800 rounded-full h-5 overflow-hidden p-0.5">
                                     <div className="bg-orange-500 h-full rounded-full transition-all duration-500" style={{ width: `${eggExp}%` }}></div>
                                 </div>
-                                <div className="text-xs font-bold text-slate-800 mt-2">{eggExp} / 100 EXP {eggExp >= 100 ? '🎉 孵化完了！' : `(あと ${100 - eggExp} EXP)`}</div>
+                                <div className="text-xs font-bold text-slate-800 mt-2">{eggExp} / 100 EXP (あと {100 - eggExp} EXPで孵化！)</div>
                             </div>
 
                             <div>
@@ -478,36 +465,20 @@
                         </div>
                     )}
 
-                    {/* チャットルーム（AIとり先生＆旅仲間） */}
-                    {activeTab === 'chat' && (
+                    {/* ピヨ友ルーム（ユーザー同士の交流用＆注意書き付き） */}
+                    {activeTab === 'piyotom' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col h-[520px]`}>
                             <div className="border-b-2 border-slate-200 pb-3 mb-3">
-                                <h2 className="text-base font-black mb-2">💬 AIとり先生相談室 ＆ 広場</h2>
-                                <div className="flex gap-2">
-                                    <button 
-                                        onClick={() => setChatCategory('teacher')}
-                                        className={`px-3 py-1.5 rounded-xl border-2 border-slate-800 text-xs font-black transition ${chatCategory === 'teacher' ? 'bg-amber-400 text-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]' : 'bg-white text-slate-700'}`}
-                                    >
-                                        🎓 AIとり先生に質問する {hasQuestionTicket ? '✨解放中' : '🔒(要孵化)'}
-                                    </button>
-                                    <button 
-                                        onClick={() => setChatCategory('general')}
-                                        className={`px-3 py-1.5 rounded-xl border-2 border-slate-800 text-xs font-black transition ${chatCategory === 'general' ? 'bg-amber-400 text-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]' : 'bg-white text-slate-700'}`}
-                                    >
-                                        👥 みんなの旅仲間広場
-                                    </button>
-                                </div>
+                                <h2 className="text-base font-black mb-1">💬 ピヨ友ルーム（旅仲間チャット）</h2>
+                                {/* 簡潔な注意書き */}
+                                <p className="text-[11px] text-rose-600 font-bold bg-rose-50 border border-rose-200 rounded-xl p-2">
+                                    ⚠️ ご注意：ルーム内での会話やトラブル等につきまして、とり先生および運営は一切関与いたしません。すべて個人の責任においてご利用ください。
+                                </p>
                             </div>
 
-                            {chatCategory === 'teacher' && !hasQuestionTicket && (
-                                <div className="bg-rose-100 border-2 border-rose-800 rounded-2xl p-4 text-xs font-bold text-rose-900 mb-3 text-center">
-                                    🔒 この部屋は「たまごを孵化させて質問チケットを手に入れた方」限定だピヨ！学習ルームでたくさん発音してね！
-                                </div>
-                            )}
-
                             <div className="flex-1 overflow-y-auto space-y-3 pr-2 mb-3">
-                                {(chatCategory === 'teacher' ? teacherMessages : generalMessages).map((msg, idx) => (
-                                    <div key={idx} className={`p-3 rounded-2xl border-2 border-slate-800 text-xs ${msg.sender.includes('とり先生') ? 'bg-amber-100 text-slate-900 ml-4' : 'bg-white text-slate-900 mr-4'}`}>
+                                {piyotomMessages.map((msg, idx) => (
+                                    <div key={idx} className={`p-3 rounded-2xl border-2 border-slate-800 text-xs ${msg.sender === 'あなた' ? 'bg-amber-100 text-slate-900 ml-4' : 'bg-white text-slate-900 mr-4'}`}>
                                         <div className="flex justify-between font-bold mb-1 text-[10px] opacity-70">
                                             <span>{msg.sender}</span>
                                             <span>{msg.time}</span>
@@ -517,16 +488,15 @@
                                 ))}
                             </div>
 
-                            <form onSubmit={handleSendMessage} className="flex gap-2">
+                            <form onSubmit={handleSendPiyotomMessage} className="flex gap-2">
                                 <input 
                                     type="text" 
                                     value={inputMessage}
                                     onChange={(e) => setInputMessage(e.target.value)}
-                                    placeholder={chatCategory === 'teacher' ? (hasQuestionTicket ? "台湾華語や旅行の疑問をAIとり先生に質問する..." : "まずはたまごを孵化させてね！") : "みんなにメッセージを送る..."}
-                                    disabled={chatCategory === 'teacher' && !hasQuestionTicket}
-                                    className="flex-1 bg-white border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs text-slate-900 font-bold focus:outline-none disabled:bg-slate-100"
+                                    placeholder="ピヨ友にメッセージを送る..." 
+                                    className="flex-1 bg-white border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs text-slate-900 font-bold focus:outline-none"
                                 />
-                                <button type="submit" disabled={chatCategory === 'teacher' && !hasQuestionTicket} className="bg-orange-500 disabled:bg-slate-400 text-white font-black px-5 py-2.5 rounded-2xl border-2 border-slate-800 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5">
+                                <button type="submit" className="bg-orange-500 text-white font-black px-5 py-2.5 rounded-2xl border-2 border-slate-800 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5">
                                     送信 🚀
                                 </button>
                             </form>
@@ -556,8 +526,8 @@
 
                             {/* とり先生の豆知識 */}
                             <div className="bg-amber-100 border-3 border-slate-800 rounded-3xl p-4 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex items-start gap-3 relative cursor-pointer" onClick={changeTip}>
-                                <div className="w-10 h-10 bg-amber-300 rounded-full border-2 border-slate-800 flex items-center justify-center shrink-0 font-black text-xs">
-                                    🐣
+                                <div className="w-12 h-12 bg-amber-300 rounded-full border-2 border-slate-800 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                                    <ToriAvatar />
                                 </div>
                                 <div className="flex-1">
                                     <div className="text-xs font-black text-slate-900 mb-0.5">とり先生の台湾トリビア（タップで次へ）</div>
