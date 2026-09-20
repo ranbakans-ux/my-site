@@ -1,34 +1,3 @@
-ご要望をすべて反映し、さらに使いやすさと楽しさが格段にアップした**最新の完全版アプリコード**を作成しましたピヨ！🐣✨
-
-### 🛠 今回の主なアップデート・修正内容：
-
-1. **日本語訳・発音の正確化**：
-* 「請給我發票」の日本語訳を正しく修正。
-* 「請給我」の発音をより自然な台湾華語の発音（Neural女性音声優先）に最適化。
-* 「請給我菜單（メニューをください）」に項目をアップデート。
-* 「廁所」をより丁寧で綺麗な表現の「洗手間（シィショウジエン）」に変更。
-* 「幾點開始？」の日本語訳を追加し、時間型の項目もすっきり「几点？」や「几点开始？」を見やすく整理。
-
-
-2. **デザイン＆カラーのブラッシュアップ**：
-* 単語ボタンをさらにカラフルにし、型にはめたときにより見やすく直感的に！
-* 感想カテゴリーを「使える型（これ、あれ、どれですか、不好意思、〜したいです など）」へ刷新。
-
-
-3. **たまご孵化・通知の改善**：
-* 画面の邪魔になるポップアップ通知を廃止！「たまご育成ルーム」にチェックしに行ったときにお楽しみとして孵化・獲得できるように変更。
-
-
-4. **ユーザー設定＆学習記録の追加**：
-* アプリ起動時（またはいつでも変更可能）に、**名前や「匿名（または設定した名前）」の選択**ができるようになり、ピヨ友ルームにも反映！
-* 毎日の学習記録（発音した回数や獲得ポイントなど）がしっかり残る機能を追加。
-
-
-5. **シーン別（シチュエーション別）の台湾華語モード**を追加！
-
-以下のコードをコピーして、`index.html` として保存・上書きしてすぐにお使いいただけます！
-
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -64,7 +33,7 @@
             </svg>
         );
 
-        // 10の基本型（単語をカラフルに設定）
+        // 10の基本型（単語をさらにカラフルに設計）
         const CORE_PATTERNS = [
             {
                 id: 1,
@@ -73,35 +42,35 @@
                 color: "bg-rose-500",
                 lightColor: "bg-rose-50 text-rose-700",
                 words: [
-                    { zh: "珍珠奶茶", zhuyin: "ㄓㄣ ㄓㄨ ㄋㄞˇ ㄔㄚˊ", pinyin: "zhēn zhū nǎi chá", ja: "タピオカミルクティー", trans: "タピオカミルクティーをください", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "小籠包", zhuyin: "ㄒㄧㄠˇ ㄌㄨㄥˊ ㄅㄠ", pinyin: "xiǎo lóng bāo", ja: "小籠包", trans: "小籠包をください", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "芒果冰", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄅㄧㄥ", pinyin: "máng guǒ bīng", ja: "マンゴーかき氷", trans: "マンゴーかき氷をください", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをください", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "水", zhuyin: "ㄕㄨㄟˇ", pinyin: "shuǐ", ja: "お水", trans: "お水をください", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "雞排", zhuyin: "ㄐㄧ ㄆㄞˊ", pinyin: "jī pái", ja: "台湾風フライドチキン", trans: "台湾風フライドチキンをください", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "牛肉麵", zhuyin: "ㄋㄧㄡˊ ㄖㄡˋ ㄇㄧㄢˋ", pinyin: "niú ròu miàn", ja: "牛肉麺", trans: "牛肉麺をください", color: "bg-red-100 text-red-900 border-red-300" },
-                    { zh: "豆漿", zhuyin: "ㄉㄡˋ ㄐㄧㄤ", pinyin: "dòu jiāng", ja: "豆乳", trans: "豆乳をください", color: "bg-stone-200 text-stone-900 border-stone-300" },
-                    { zh: "大腸包小腸", zhuyin: "ㄉㄚˋ ㄔㄤˊ ㄅㄠ ㄒㄧㄠˇ ㄔㄤˊ", pinyin: "dà cháng bāo xiǎo cháng", ja: "台湾式ソーセージ", trans: "台湾式ソーセージをください", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "滷肉飯", zhuyin: "ㄌㄨˇ ㄖㄡˋ ㄈㄢˋ", pinyin: "lǔ ròu fàn", ja: "ルーローハン", trans: "ルーローハンをください", color: "bg-amber-200 text-amber-900 border-amber-400" }
+                    { zh: "珍珠奶茶", zhuyin: "ㄓㄣ ㄓㄨ ㄋㄞˇ ㄔㄚˊ", pinyin: "zhēn zhū nǎi chá", ja: "タピオカミルクティー", trans: "タピオカミルクティーをください", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "小籠包", zhuyin: "ㄒㄧㄠˇ ㄌㄨㄥˊ ㄅㄠ", pinyin: "xiǎo lóng bāo", ja: "小籠包", trans: "小籠包をください", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "芒果冰", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄅㄧㄥ", pinyin: "máng guǒ bīng", ja: "マンゴーかき氷", trans: "マンゴーかき氷をください", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをください", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "水", zhuyin: "ㄕㄨㄟˇ", pinyin: "shuǐ", ja: "お水", trans: "お水をください", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "雞排", zhuyin: "ㄐㄧ ㄆㄞˊ", pinyin: "jī pái", ja: "台湾風フライドチキン", trans: "台湾風フライドチキンをください", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "牛肉麵", zhuyin: "ㄋㄧㄡˊ ㄖㄡˋ ㄇㄧㄢˋ", pinyin: "niú ròu miàn", ja: "牛肉麺", trans: "牛肉麺をください", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" },
+                    { zh: "豆漿", zhuyin: "ㄉㄡˋ ㄐㄧㄤ", pinyin: "dòu jiāng", ja: "豆乳", trans: "豆乳をください", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "大腸包小腸", zhuyin: "ㄉㄚˋ ㄔㄤˊ ㄅㄠ ㄒㄧㄠˇ ㄔㄤˊ", pinyin: "dà cháng bāo xiǎo cháng", ja: "台湾式ソーセージ", trans: "台湾式ソーセージをください", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "滷肉飯", zhuyin: "ㄌㄨˇ ㄖㄡˋ ㄈㄢˋ", pinyin: "lǔ ròu fàn", ja: "ルーローハン", trans: "ルーローハンをください", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" }
                 ]
             },
             {
                 id: 2,
-                name: "【お願い】〜お願いします（メニューなどを追加）",
+                name: "【お願い】〜お願いします",
                 formula: "請給我～",
                 color: "bg-amber-500",
                 lightColor: "bg-amber-50 text-amber-700",
                 words: [
-                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをお願いします", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋を1つお願いします", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "レシート", trans: "レシートをお願いします", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票", trans: "統一発票（レシート）をお願いします", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器をお願いします", color: "bg-lime-100 text-lime-900 border-lime-300" },
-                    { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンをお願いします", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷をお願いします", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
-                    { zh: "吸管", zhuyin: "ㄒㄧ ㄍㄨㄢˇ", pinyin: "xī guǎn", ja: "ストロー", trans: "ストローをお願いします", color: "bg-teal-100 text-teal-900 border-teal-300" },
-                    { zh: "熱水", zhuyin: "ㄖㄜˋ ㄕㄨㄟˇ", pinyin: "rè shuǐ", ja: "お湯", trans: "お湯をお願いします", color: "bg-red-100 text-red-900 border-red-300" },
-                    { zh: "分裝盤", zhuyin: "ㄈㄣ ㄓㄨㄤ ㄆㄢˊ", pinyin: "fēn zhuāng pán", ja: "取り皿", trans: "取り皿をお願いします", color: "bg-purple-100 text-purple-900 border-purple-300" }
+                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをお願いします", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋を1つお願いします", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "レシート", trans: "レシートをお願いします", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票", trans: "統一発票（レシート）をお願いします", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器をお願いします", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" },
+                    { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンをお願いします", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷をお願いします", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
+                    { zh: "吸管", zhuyin: "ㄒㄧ ㄍㄨㄢˇ", pinyin: "xī guǎn", ja: "ストロー", trans: "ストローをお願いします", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" },
+                    { zh: "熱水", zhuyin: "ㄖㄜˋ ㄕㄨㄟˇ", pinyin: "rè shuǐ", ja: "お湯", trans: "お湯をお願いします", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" },
+                    { zh: "分裝盤", zhuyin: "ㄈㄣ ㄓㄨㄤ ㄆㄢˊ", pinyin: "fēn zhuāng pán", ja: "取り皿", trans: "取り皿をお願いします", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" }
                 ]
             },
             {
@@ -111,35 +80,35 @@
                 color: "bg-emerald-500",
                 lightColor: "bg-emerald-50 text-emerald-700",
                 words: [
-                    { zh: "台北101", zhuyin: "ㄊㄞˊ ㄅㄟˇ ㄧ ㄌㄧㄥˊ ㄧ", pinyin: "tái běi yī líng yī", ja: "台北101", trans: "台北101へはどうやって行きますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "夜市", zhuyin: "ㄧㄝˋ ㄕˋ", pinyin: "yè shì", ja: "夜市", trans: "夜市へはどうやって行きますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅へはどうやって行きますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "九份", zhuyin: "ㄐㄧㄡˇ ㄈㄣˋ", pinyin: "jiǔ fèn", ja: "九份", trans: "九份へはどうやって行きますか？", color: "bg-red-100 text-red-900 border-red-300" },
-                    { zh: "故宮博物院", zhuyin: "ㄍㄨˋ ㄍㄨㄥ ㄅㄛˊ ㄨˋ ㄩㄢˋ", pinyin: "gù gōng bó wù yuàn", ja: "国立故宮博物院", trans: "国立故宮博物院へはどうやって行きますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "西門町", zhuyin: "ㄒㄧ ㄇㄣˊ ㄉㄧㄥ", pinyin: "xī mén dīng", ja: "西門町", trans: "西門町へはどうやって行きますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "中正紀念堂", zhuyin: "ㄓㄨㄥ ㄓㄥˋ ㄐㄧˋ ㄋㄧㄢˋ ㄊㄤˊ", pinyin: "zhōng zhèng jì niàn táng", ja: "中正紀念堂", trans: "中正紀念堂へはどうやって行きますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "龍山寺", zhuyin: "ㄌㄨㄥˊ ㄕㄢ ㄙˋ", pinyin: "lóng shān sì", ja: "龍山寺", trans: "龍山寺へはどうやって行きますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "機場", zhuyin: "ㄐㄧ ㄔㄤˇ", pinyin: "jī chǎng", ja: "空港", trans: "空港へはどうやって行きますか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "飯店", zhuyin: "ㄈㄢˋ ㄉㄧㄢˋ", pinyin: "fàn diàn", ja: "ホテル", trans: "ホテルへはどうやって行きますか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
+                    { zh: "台北101", zhuyin: "ㄊㄞˊ ㄅㄟˇ ㄧ ㄌㄧㄥˊ ㄧ", pinyin: "tái běi yī líng yī", ja: "台北101", trans: "台北101へはどうやって行きますか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "夜市", zhuyin: "ㄧㄝˋ ㄕˋ", pinyin: "yè shì", ja: "夜市", trans: "夜市へはどうやって行きますか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅へはどうやって行きますか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "九份", zhuyin: "ㄐㄧㄡˇ ㄈㄣˋ", pinyin: "jiǔ fèn", ja: "九份", trans: "九份へはどうやって行きますか？", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" },
+                    { zh: "故宮博物院", zhuyin: "ㄍㄨˋ ㄍㄨㄥ ㄅㄛˊ ㄨˋ ㄩㄢˋ", pinyin: "gù gōng bó wù yuàn", ja: "国立故宮博物院", trans: "国立故宮博物院へはどうやって行きますか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "西門町", zhuyin: "ㄒㄧ ㄇㄣˊ ㄉㄧㄥ", pinyin: "xī mén dīng", ja: "西門町", trans: "西門町へはどうやって行きますか？", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "中正紀念堂", zhuyin: "ㄓㄨㄥ ㄓㄥˋ ㄐㄧˋ ㄋㄧㄢˋ ㄊㄤˊ", pinyin: "zhōng zhèng jì niàn táng", ja: "中正紀念堂", trans: "中正紀念堂へはどうやって行きますか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "龍山寺", zhuyin: "ㄌㄨㄥˊ ㄕㄢ ㄙˋ", pinyin: "lóng shān sì", ja: "龍山寺", trans: "龍山寺へはどうやって行きますか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "機場", zhuyin: "ㄐㄧ ㄔㄤˇ", pinyin: "jī chǎng", ja: "空港", trans: "空港へはどうやって行きますか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "飯店", zhuyin: "ㄈㄢˋ ㄉㄧㄢˋ", pinyin: "fàn diàn", ja: "ホテル", trans: "ホテルへはどうやって行きますか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
             {
                 id: 4,
-                name: "【場所】〜はどこですか？（洗手間に変更）",
+                name: "【場所】〜はどこですか？",
                 formula: "請問～在哪裡？",
                 color: "bg-cyan-500",
                 lightColor: "bg-cyan-50 text-cyan-700",
                 words: [
-                    { zh: "洗手間", zhuyin: "ㄒㄧˇ ㄕㄡˇ ㄐㄧㄢ", pinyin: "xǐ shǒu jiān", ja: "お手洗い（綺麗）", trans: "お手洗いはどこですか？", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
-                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅はどこですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "便利商店", zhuyin: "ㄅㄧㄢˋ ㄌㄧˋ ㄕㄤ ㄉㄧㄢˋ", pinyin: "biàn lì shāng diàn", ja: "コンビニ", trans: "コンビニはどこですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "出口", zhuyin: "ㄔㄨ ㄎㄡˇ", pinyin: "chū kǒu", ja: "出口", trans: "出口はどこですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "寄物櫃", zhuyin: "ㄐㄧˋ ㄨˋ ㄍㄨㄟˋ", pinyin: "jì wù guì", ja: "コインロッカー", trans: "コインロッカーはどこですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "售票處", zhuyin: "ㄕㄡˋ ㄆㄧㄠˋ ㄔㄨˋ", pinyin: "shòu piào chù", ja: "切符売り場", trans: "切符売り場はどこですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "服務台", zhuyin: "ㄈㄨˊ ㄨˋ ㄊㄞˊ", pinyin: "fú wù tái", ja: "インフォメーション", trans: "インフォメーションはどこですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
-                    { zh: "ATM", zhuyin: "ㄗˋ ㄉㄨㄥ ㄑㄩˇ ㄎㄨㄢˇ ㄐㄧ", pinyin: "zì dōng qǔ kuǎn jī", ja: "ATM", trans: "ATMはどこですか？", color: "bg-stone-200 text-stone-900 border-stone-300" },
-                    { zh: "藥局", zhuyin: "ㄧㄠˋ ㄐㄩˊ", pinyin: "yào jú", ja: "薬局", trans: "薬局はどこですか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "醫院", zhuyin: "ㄧ ㄩㄢˋ", pinyin: "yī yuàn", ja: "病院", trans: "病院はどこですか？", color: "bg-red-100 text-red-900 border-red-300" }
+                    { zh: "洗手間", zhuyin: "ㄒㄧˇ ㄕㄡˇ ㄐㄧㄢ", pinyin: "xǐ shǒu jiān", ja: "お手洗い", trans: "お手洗いはどこですか？", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
+                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅はどこですか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "便利商店", zhuyin: "ㄅㄧㄢˋ ㄌㄧˋ ㄕㄤ ㄉㄧㄢˋ", pinyin: "biàn lì shāng diàn", ja: "コンビニ", trans: "コンビニはどこですか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "出口", zhuyin: "ㄔㄨ ㄎㄡˇ", pinyin: "chū kǒu", ja: "出口", trans: "出口はどこですか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "寄物櫃", zhuyin: "ㄐㄧˋ ㄨˋ ㄍㄨㄟˋ", pinyin: "jì wù guì", ja: "コインロッカー", trans: "コインロッカーはどこですか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "售票處", zhuyin: "ㄕㄡˋ ㄆㄧㄠˋ ㄔㄨˋ", pinyin: "shòu piào chù", ja: "切符売り場", trans: "切符売り場はどこですか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "服務台", zhuyin: "ㄈㄨˊ ㄨˋ ㄊㄞˊ", pinyin: "fú wù tái", ja: "インフォメーション", trans: "インフォメーションはどこですか？", color: "bg-indigo-200 text-indigo-950 border-indigo-400 hover:bg-indigo-300" },
+                    { zh: "ATM", zhuyin: "ㄗˋ ㄉㄨㄥ ㄑㄩˇ ㄎㄨㄢˇ ㄐㄧ", pinyin: "zì dōng qǔ kuǎn jī", ja: "ATM", trans: "ATMはどこですか？", color: "bg-stone-300 text-stone-950 border-stone-400 hover:bg-stone-400" },
+                    { zh: "藥局", zhuyin: "ㄧㄠˋ ㄐㄩˊ", pinyin: "yào jú", ja: "薬局", trans: "薬局はどこですか？", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "醫院", zhuyin: "ㄧ ㄩㄢˋ", pinyin: "yī yuàn", ja: "病院", trans: "病院はどこですか？", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" }
                 ]
             },
             {
@@ -149,16 +118,16 @@
                 color: "bg-blue-500",
                 lightColor: "bg-blue-50 text-blue-700",
                 words: [
-                    { zh: "鳳梨酥", zhuyin: "ㄈㄥˋ ㄌㄧˊ ㄙㄨ", pinyin: "fèng lí sū", ja: "パイナップルケーキ", trans: "パイナップルケーキは売っていますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "烏龍茶", zhuyin: "ㄨ ㄌㄨㄥˊ ㄔㄚˊ", pinyin: "wū lóng chá", ja: "烏龍茶", trans: "烏龍茶は売っていますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "明信片", zhuyin: "ㄇㄧㄥˊ ㄒㄧㄣˋ ㄆㄧㄢˋ", pinyin: "míng xìn piàn", ja: "ポストカード", trans: "ポストカードは売っていますか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "悠遊卡", zhuyin: "ㄧㄡ ㄧㄡˊ ㄎㄚˇ", pinyin: "yóu yóu kǎ", ja: "悠遊カード", trans: "悠遊カードは売っていますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "雨傘", zhuyin: "ㄩˇ ㄙㄢˇ", pinyin: "yǔ sǎn", ja: "傘", trans: "傘は売っていますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "茶葉", zhuyin: "ㄔㄚˊ ㄧㄝˋ", pinyin: "chá yè", ja: "茶葉", trans: "茶葉は売っていますか？", color: "bg-lime-100 text-lime-900 border-lime-300" },
-                    { zh: "磁鐵", zhuyin: "ㄘˊ ㄊㄧㄝˇ", pinyin: "cí tiě", ja: "マグネット", trans: "マグネットは売っていますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "芒果乾", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄍㄢ", pinyin: "máng guǒ gān", ja: "ドライマンゴー", trans: "ドライマンゴーは売っていますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "紀念品", zhuyin: "ㄐㄧˋ ㄋㄧㄢˋ ㄆㄧㄣˇ", pinyin: "jì niàn pǐn", ja: "お土産", trans: "お土産は売っていますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "SIM卡", zhuyin: "ㄙ ㄇㄨˇ ㄎㄚˇ", pinyin: "sī mǔ kǎ", ja: "SIMカード", trans: "SIMカードは売っていますか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
+                    { zh: "鳳梨酥", zhuyin: "ㄈㄥˋ ㄌㄧˊ ㄙㄨ", pinyin: "fèng lí sū", ja: "パイナップルケーキ", trans: "パイナップルケーキは売っていますか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "烏龍茶", zhuyin: "ㄨ ㄌㄨㄥˊ ㄔㄚˊ", pinyin: "wū lóng chá", ja: "烏龍茶", trans: "烏龍茶は売っていますか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "明信片", zhuyin: "ㄇㄧㄥˊ ㄒㄧㄣˋ ㄆㄧㄢˋ", pinyin: "míng xìn piàn", ja: "ポストカード", trans: "ポストカードは売っていますか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "悠遊卡", zhuyin: "ㄧㄡ ㄧㄡˊ ㄎㄚˇ", pinyin: "yóu yóu kǎ", ja: "悠遊カード", trans: "悠遊カードは売っていますか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "雨傘", zhuyin: "ㄩˇ ㄙㄢˇ", pinyin: "yǔ sǎn", ja: "傘", trans: "傘は売っていますか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "茶葉", zhuyin: "ㄔㄚˊ ㄧㄝˋ", pinyin: "chá yè", ja: "茶葉", trans: "茶葉は売っていますか？", color: "bg-lime-200 text-lime-950 border-lime-400 hover:bg-lime-300" },
+                    { zh: "磁鐵", zhuyin: "ㄘˊ ㄊㄧㄝˇ", pinyin: "cí tiě", ja: "マグネット", trans: "マグネットは売っていますか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "芒果乾", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄍㄢ", pinyin: "máng guǒ gān", ja: "ドライマンゴー", trans: "ドライマンゴーは売っていますか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "紀念品", zhuyin: "ㄐㄧˋ ㄋㄧㄢˋ ㄆㄧㄣˇ", pinyin: "jì niàn pǐn", ja: "お土産", trans: "お土産は売っていますか？", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "SIM卡", zhuyin: "ㄙ ㄇㄨˇ ㄎㄚˇ", pinyin: "sī mǔ kǎ", ja: "SIMカード", trans: "SIMカードは売っていますか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
             {
@@ -168,35 +137,35 @@
                 color: "bg-indigo-500",
                 lightColor: "bg-indigo-50 text-indigo-700",
                 words: [
-                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これはいくらですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
-                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれはいくらですか？", color: "bg-violet-100 text-violet-900 border-violet-300" },
-                    { zh: "總共", zhuyin: "ㄗㄨㄥˇ ㄍㄨㄥˋ", pinyin: "zǒng gòng", ja: "合計", trans: "合計でいくらですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "門票", zhuyin: "ㄇㄣˊ ㄆㄧㄠˋ", pinyin: "mén piào", ja: "入場券", trans: "入場券はいくらですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "運費", zhuyin: "ㄩㄣˋ ㄈㄟˋ", pinyin: "yùn fèi", ja: "送料", trans: "送料はいくらですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "一斤", zhuyin: "ㄧ ㄐㄧㄣ", pinyin: "yī jīn", ja: "1斤（約600g）", trans: "1斤あたりいくらですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "一件", zhuyin: "ㄧ ㄐㄧㄢˋ", pinyin: "yī jiàn", ja: "1着", trans: "1着いくらですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "一箱", zhuyin: "ㄧ ㄒㄧㄤ", pinyin: "yī xiāng", ja: "1箱", trans: "1箱いくらですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "一日遊", zhuyin: "ㄧ ㄖˋ ㄧㄡˊ", pinyin: "yī rì yóu", ja: "日帰りツアー", trans: "日帰りツアーはいくらですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "包車", zhuyin: "ㄅㄠ ㄔㄜ", pinyin: "bāo chē", ja: "チャーター車", trans: "チャーター車はいくらですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
+                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これはいくらですか？", color: "bg-indigo-200 text-indigo-950 border-indigo-400 hover:bg-indigo-300" },
+                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれはいくらですか？", color: "bg-violet-200 text-violet-950 border-violet-400 hover:bg-violet-300" },
+                    { zh: "總共", zhuyin: "ㄗㄨㄥˇ ㄍㄨㄥˋ", pinyin: "zǒng gòng", ja: "合計", trans: "合計でいくらですか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "門票", zhuyin: "ㄇㄣˊ ㄆㄧㄠˋ", pinyin: "mén piào", ja: "入場券", trans: "入場券はいくらですか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "運費", zhuyin: "ㄩㄣˋ ㄈㄟˋ", pinyin: "yùn fèi", ja: "送料", trans: "送料はいくらですか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "一斤", zhuyin: "ㄧ ㄐㄧㄣ", pinyin: "yī jīn", ja: "1斤（約600g）", trans: "1斤あたりいくらですか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "一件", zhuyin: "ㄧ ㄐㄧㄢˋ", pinyin: "yī jiàn", ja: "1着", trans: "1着いくらですか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "一箱", zhuyin: "ㄧ ㄒㄧㄤ", pinyin: "yī xiāng", ja: "1箱", trans: "1箱いくらですか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "一日遊", zhuyin: "ㄧ ㄖˋ ㄧㄡˊ", pinyin: "yī rì yóu", ja: "日帰りツアー", trans: "日帰りツアーはいくらですか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "包車", zhuyin: "ㄅㄠ ㄔㄜ", pinyin: "bāo chē", ja: "チャーター車", trans: "チャーター車はいくらですか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
             {
                 id: 7,
-                name: "【時間】なんじですか？（シンプル化）",
+                name: "【時間】なんじですか？",
                 formula: "請問～幾点？",
                 color: "bg-purple-500",
                 lightColor: "bg-purple-50 text-purple-700",
                 words: [
-                    { zh: "開始營業", zhuyin: "ㄎㄞ ㄕˇ ㄧㄥˊ ㄧㄝˋ", pinyin: "kāi shǐ yíng yè", ja: "営業開始", trans: "営業開始は何時ですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "打烊", zhuyin: "ㄉㄚˇ ㄧㄤˋ", pinyin: "dǎ yàng", ja: "閉店", trans: "閉店は何時ですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "最後點餐", zhuyin: "ㄗㄨㄟˋ ㄏㄡˋ ㄉㄧㄢˇ ㄘㄢ", pinyin: "zuì hòu diǎn cān", ja: "ラストオーダー", trans: "ラストオーダーは何時ですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "開門", zhuyin: "ㄎㄞ ㄇㄣˊ", pinyin: "kāi mén", ja: "開店", trans: "開店は何時ですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "休息", zhuyin: "ㄒㄧㄡ ㄒㄧˊ", pinyin: "xiū xí", ja: "休憩・定休日", trans: "休憩時間は何時ですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
-                    { zh: "早班", zhuyin: "ㄗㄠˇ ㄅㄢ", pinyin: "zǎo bān", ja: "モーニング", trans: "モーニングは何時ですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "夜市開市", zhuyin: "ㄧㄝˋ ㄕˋ ㄎㄞ ㄕˋ", pinyin: "yè shì kāi shì", ja: "夜市オープン", trans: "夜市オープンは何時ですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車", trans: "発車は何時ですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "現在", zhuyin: "ㄒㄧㄢˋ ㄗㄞˋ", pinyin: "xiàn zài", ja: "今", trans: "今何時ですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
+                    { zh: "開始營業", zhuyin: "ㄎㄞ ㄕˇ ㄧㄥˊ ㄧㄝˋ", pinyin: "kāi shǐ yíng yè", ja: "営業開始", trans: "営業開始は何時ですか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "打烊", zhuyin: "ㄉㄚˇ ㄧㄤˋ", pinyin: "dǎ yàng", ja: "閉店", trans: "閉店は何時ですか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "最後點餐", zhuyin: "ㄗㄨㄟˋ ㄏㄡˋ ㄉㄧㄢˇ ㄘㄢ", pinyin: "zuì hòu diǎn cān", ja: "ラストオーダー", trans: "ラストオーダーは何時ですか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "開門", zhuyin: "ㄎㄞ ㄇㄣˊ", pinyin: "kāi mén", ja: "開店", trans: "開店は何時ですか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "休息", zhuyin: "ㄒㄧㄡ ㄒㄧˊ", pinyin: "xiū xí", ja: "休憩・定休日", trans: "休憩時間は何時ですか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？", color: "bg-indigo-200 text-indigo-950 border-indigo-400 hover:bg-indigo-300" },
+                    { zh: "早班", zhuyin: "ㄗㄠˇ ㄅㄢ", pinyin: "zǎo bān", ja: "モーニング", trans: "モーニングは何時ですか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "夜市開市", zhuyin: "ㄧㄝˋ ㄕˋ ㄎㄞ ㄕˋ", pinyin: "yè shì kāi shì", ja: "夜市オープン", trans: "夜市オープンは何時ですか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車", trans: "発車は何時ですか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "現在", zhuyin: "ㄒㄧㄢˋ ㄗㄞˋ", pinyin: "xiàn zài", ja: "今", trans: "今何時ですか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
             {
@@ -206,16 +175,16 @@
                 color: "bg-pink-500",
                 lightColor: "bg-pink-50 text-pink-700",
                 words: [
-                    { zh: "刷卡", zhuyin: "ㄕㄨㄚ ㄎㄚˇ", pinyin: "shuā kǎ", ja: "カード払い", trans: "カード払いはできますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "拍照", zhuyin: "ㄆㄞ ㄓㄠˋ", pinyin: "pāi zhào", ja: "写真撮影", trans: "写真は撮れますか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "外帶", zhuyin: "ㄨㄞˋ ㄉㄞˋ", pinyin: "wài dài", ja: "テイクアウト", trans: "テイクアウトはできますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "內用", zhuyin: "ㄋㄟˋ ㄩㄥˋ", pinyin: "nèi yòng", ja: "イートイン", trans: "店内で食べられますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "加熱", zhuyin: "ㄐㄧㄚ ㄖㄜˋ", pinyin: "jiā rè", ja: "温め", trans: "温められますか？", color: "bg-red-100 text-red-900 border-red-300" },
-                    { zh: "寄行李", zhuyin: "ㄐㄧˋ ㄒㄧㄥˊ ㄌㄧˇ", pinyin: "jì xíng lǐ", ja: "荷物を預かる", trans: "荷物を預かってもらえますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "訂位", zhuyin: "ㄉㄧㄥˋ ㄨㄟˋ", pinyin: "dìng wèi", ja: "予約", trans: "予約はできますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "退稅", zhuyin: "ㄊㄨㄟˋ ㄕㄨㄟˋ", pinyin: "tuì shuì", ja: "免税手続き", trans: "免税手続きはできますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "換錢", zhuyin: "ㄏㄨㄢˋ ㄑㄧㄢˊ", pinyin: "huàn qián", ja: "両替", trans: "両替はできますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "加辣", zhuyin: "ㄐㄧㄚ ㄌㄚˋ", pinyin: "jiā là", ja: "辛くする", trans: "辛くできますか？", color: "bg-rose-200 text-rose-900 border-rose-400" }
+                    { zh: "刷卡", zhuyin: "ㄕㄨㄚ ㄎㄚˇ", pinyin: "shuā kǎ", ja: "カード払い", trans: "カード払いはできますか？", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "拍照", zhuyin: "ㄆㄞ ㄓㄠˋ", pinyin: "pāi zhào", ja: "写真撮影", trans: "写真は撮れますか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "外帶", zhuyin: "ㄨㄞˋ ㄉㄞˋ", pinyin: "wài dài", ja: "テイクアウト", trans: "テイクアウトはできますか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "內用", zhuyin: "ㄋㄟˋ ㄩㄥˋ", pinyin: "nèi yòng", ja: "イートイン", trans: "店内で食べられますか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "加熱", zhuyin: "ㄐㄧㄚ ㄖㄜˋ", pinyin: "jiā rè", ja: "温め", trans: "温められますか？", color: "bg-red-200 text-red-950 border-red-400 hover:bg-red-300" },
+                    { zh: "寄行李", zhuyin: "ㄐㄧˋ ㄒㄧㄥˊ ㄌㄧˇ", pinyin: "jì xíng lǐ", ja: "荷物を預かる", trans: "荷物を預かってもらえますか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "訂位", zhuyin: "ㄉㄧㄥˋ ㄨㄟˋ", pinyin: "dìng wèi", ja: "予約", trans: "予約はできますか？", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "退稅", zhuyin: "ㄊㄨㄟˋ ㄕㄨㄟˋ", pinyin: "tuì shuì", ja: "免税手続き", trans: "免税手続きはできますか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "換錢", zhuyin: "ㄏㄨㄢˋ ㄑㄧㄢˊ", pinyin: "huàn qián", ja: "両替", trans: "両替はできますか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "加辣", zhuyin: "ㄐㄧㄚ ㄌㄚˋ", pinyin: "jiā là", ja: "辛くする", trans: "辛くできますか？", color: "bg-rose-300 text-rose-950 border-rose-500 hover:bg-rose-400" }
                 ]
             },
             {
@@ -225,16 +194,16 @@
                 color: "bg-orange-500",
                 lightColor: "bg-orange-50 text-orange-700",
                 words: [
-                    { zh: "招牌菜", zhuyin: "ㄓㄠ ㄆㄞˊ ㄘㄞˋ", pinyin: "zhāo pái cài", ja: "看板メニュー", trans: "看板メニューのおすすめはどれですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "人氣商品", zhuyin: "ㄖㄣˊ ㄑㄧˋ ㄕㄤ ㄆㄧㄣˇ", pinyin: "rén qì shāng pǐn", ja: "人気商品", trans: "人気商品のおすすめはどれですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "伴手禮", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ", pinyin: "bàn shǒu lǐ", ja: "お土産", trans: "お土産のおすすめはどれですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
-                    { zh: "甜點", zhuyin: "ㄊㄧㄢˊ ㄉㄧㄢˇ", pinyin: "tián diǎn", ja: "デザート", trans: "デザートのおすすめはどれですか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "口味", zhuyin: "ㄎㄡˇ ㄨㄟˋ", pinyin: "kǒu wèi", ja: "味", trans: "おすすめの味はどれですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
-                    { zh: "飲料", zhuyin: "ㄧㄣˇ ㄌㄧㄠˋ", pinyin: "yǐn liào", ja: "ドリンク", trans: "おすすめのドリンクはどれですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "季節限定", zhuyin: "ㄐㄧˋ ㄐㄧㄝˊ ㄒㄧㄢˋ ㄉㄧㄥˋ", pinyin: "jì jié xiàn dìng", ja: "季節限定", trans: "季節限定のおすすめはどれですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "素食", zhuyin: "ㄙㄨˋ ㄕˊ", pinyin: "sù shí", ja: "ベジタリアン", trans: "ベジタリアン料理のおすすめはどれですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "伴手禮盒", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ ㄏㄜˊ", pinyin: "bàn shǒu lǐ hé", ja: "ギフトボックス", trans: "ギフトボックスのおすすめはどれですか？", color: "bg-stone-200 text-stone-900 border-stone-300" },
-                    { zh: "特產", zhuyin: "ㄊㄜˋ ㄔㄢˇ", pinyin: "tè chǎn", ja: "特産品", trans: "特産品のおすすめはどれですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
+                    { zh: "招牌菜", zhuyin: "ㄓㄠ ㄆㄞˊ ㄘㄞˋ", pinyin: "zhāo pái cài", ja: "看板メニュー", trans: "看板メニューのおすすめはどれですか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "人氣商品", zhuyin: "ㄖㄣˊ ㄑㄧˋ ㄕㄤ ㄆㄧㄣˇ", pinyin: "rén qì shāng pǐn", ja: "人気商品", trans: "人気商品のおすすめはどれですか？", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "伴手禮", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ", pinyin: "bàn shǒu lǐ", ja: "お土産", trans: "お土産のおすすめはどれですか？", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" },
+                    { zh: "甜點", zhuyin: "ㄊㄧㄢˊ ㄉㄧㄢˇ", pinyin: "tián diǎn", ja: "デザート", trans: "デザートのおすすめはどれですか？", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "口味", zhuyin: "ㄎㄡˇ ㄨㄟˋ", pinyin: "kǒu wèi", ja: "味", trans: "おすすめの味はどれですか？", color: "bg-rose-200 text-rose-950 border-rose-400 hover:bg-rose-300" },
+                    { zh: "飲料", zhuyin: "ㄧㄣˇ ㄌㄧㄠˋ", pinyin: "yǐn liào", ja: "ドリンク", trans: "おすすめのドリンクはどれですか？", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "季節限定", zhuyin: "ㄐㄧˋ ㄐㄧㄝˊ ㄒㄧㄢˋ ㄉㄧㄥˋ", pinyin: "jì jié xiàn dìng", ja: "季節限定", trans: "季節限定のおすすめはどれですか？", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "素食", zhuyin: "ㄙㄨˋ ㄕˊ", pinyin: "sù shí", ja: "ベジタリアン", trans: "ベジタリアン料理のおすすめはどれですか？", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "伴手禮盒", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ ㄏㄜˊ", pinyin: "bàn shǒu lǐ hé", ja: "ギフトボックス", trans: "ギフトボックスのおすすめはどれですか？", color: "bg-stone-300 text-stone-950 border-stone-400 hover:bg-stone-400" },
+                    { zh: "特產", zhuyin: "ㄊㄜˋ ㄔㄢˇ", pinyin: "tè chǎn", ja: "特産品", trans: "特産品のおすすめはどれですか？", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" }
                 ]
             },
             {
@@ -244,21 +213,20 @@
                 color: "bg-teal-600",
                 lightColor: "bg-teal-50 text-teal-700",
                 words: [
-                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ（これをください）", trans:これをください", color: "bg-teal-100 text-teal-900 border-teal-300" },
-                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ（あれをください）", trans: "あれをください", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
-                    { zh: "不好意思", zhuyin: "ㄅㄨˋ ㄏㄠˇ ㄧˋ ㄙ˙", pinyin: "bù hǎo yì si", ja: "すみません／失礼します", trans: "すみません", color: "bg-amber-100 text-amber-900 border-amber-300" },
-                    { zh: "我想看", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄎㄢˋ", pinyin: "wǒ xiǎng kàn", ja: "~を見たいです", trans: "見てもいいですか", color: "bg-blue-100 text-blue-900 border-blue-300" },
-                    { zh: "我想試穿", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄕˋ ㄔㄨㄢ", pinyin: "wǒ xiǎng shì chuān", ja: "~を試着したいです", trans: "試着してもいいですか", color: "bg-purple-100 text-purple-900 border-purple-300" },
-                    { zh: "我想拍 照", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄆㄞˋ ㄓㄠˋ", pinyin: "wǒ xiǎng pāi zhào", ja: "~を撮影したいです", trans: "写真を撮ってもいいですか", color: "bg-pink-100 text-pink-900 border-pink-300" },
-                    { zh: "哪一個", zhuyin: "ㄋㄚˇ ㄧ ㄍㄜˋ", pinyin: "nǎ yī gè", ja: "どれですか", trans: "どれですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
-                    { zh: "這裡", zhuyin: "ㄓㄜˋ ㄌㄧˇ", pinyin: "zhè lǐ", ja: "ここ", trans: "ここはとてもきれいです", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
-                    { zh: "捷運", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ", pinyin: "jié yùn", ja: "MRT", trans: "MRTはとても便利です", color: "bg-sky-100 text-sky-900 border-sky-300" },
-                    { zh: "台灣人", zhuyin: "ㄊㄞˊ ㄨㄢ ㄖㄣˊ", pinyin: "tái wān rén", ja: "台湾の人", trans: "台湾の人はとても親切です", color: "bg-yellow-100 text-yellow-900 border-yellow-300" }
+                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これをください", color: "bg-teal-200 text-teal-950 border-teal-400 hover:bg-teal-300" },
+                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれをください", color: "bg-cyan-200 text-cyan-950 border-cyan-400 hover:bg-cyan-300" },
+                    { zh: "不好意思", zhuyin: "ㄅㄨˋ ㄏㄠˇ ㄧˋ ㄙ˙", pinyin: "bù hǎo yì si", ja: "すみません", trans: "すみません", color: "bg-amber-200 text-amber-950 border-amber-400 hover:bg-amber-300" },
+                    { zh: "我想看", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄎㄢˋ", pinyin: "wǒ xiǎng kàn", ja: "見たいです", trans: "見てもいいですか", color: "bg-blue-200 text-blue-950 border-blue-400 hover:bg-blue-300" },
+                    { zh: "我想試穿", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄕˋ ㄔㄨㄢ", pinyin: "wǒ xiǎng shì chuān", ja: "試着したい", trans: "試着してもいいですか", color: "bg-purple-200 text-purple-950 border-purple-400 hover:bg-purple-300" },
+                    { zh: "我想拍照", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄆㄞˋ ㄓㄠˋ", pinyin: "wǒ xiǎng pāi zhào", ja: "撮影したい", trans: "写真を撮ってもいいですか", color: "bg-pink-200 text-pink-950 border-pink-400 hover:bg-pink-300" },
+                    { zh: "哪一個", zhuyin: "ㄋㄚˇ ㄧ ㄍㄜˋ", pinyin: "nǎ yī gè", ja: "どれですか", trans: "どれですか？", color: "bg-orange-200 text-orange-950 border-orange-400 hover:bg-orange-300" },
+                    { zh: "這裡", zhuyin: "ㄓㄜˋ ㄌㄧˇ", pinyin: "zhè lǐ", ja: "ここ", trans: "ここはとてもきれいです", color: "bg-emerald-200 text-emerald-950 border-emerald-400 hover:bg-emerald-300" },
+                    { zh: "捷運", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ", pinyin: "jié yùn", ja: "MRT", trans: "MRTはとても便利です", color: "bg-sky-200 text-sky-950 border-sky-400 hover:bg-sky-300" },
+                    { zh: "台灣人", zhuyin: "ㄊㄞˊ ㄨㄢ ㄖㄣˊ", pinyin: "tái wān rén", ja: "台湾の人", trans: "台湾の人はとても親切です", color: "bg-yellow-200 text-yellow-950 border-yellow-400 hover:bg-yellow-300" }
                 ]
             }
         ];
 
-        // シチュエーション別台湾華語データ
         const SITUATIONS = [
             {
                 title: "🍜 飲食店・夜市で注文する",
@@ -303,7 +271,6 @@
         ];
 
         function App() {
-            // ユーザー設定（名前・匿名選択）
             const [userName, setUserName] = useState('');
             const [isAnonymous, setIsAnonymous] = useState(false);
             const [isSetupDone, setIsSetupDone] = useState(false);
@@ -313,14 +280,13 @@
             
             const [rubyType, setRubyType] = useState('pinyin'); 
             const [theme, setTheme] = useState('normal'); 
-            const [activeTab, setActiveTab] = useState('app'); // 'app' | 'rewards' | 'piyotom' | 'situations'
+            const [activeTab, setActiveTab] = useState('app'); 
 
-            // 学習記録＆ゲーミフィケーション
             const [points, setPoints] = useState(225);
             const [eggExp, setEggExp] = useState(90); 
             const [isHatched, setIsHatched] = useState(false);
             const [rewards, setRewards] = useState(['とり先生の特製めがね①']);
-            const [practiceCount, setPracticeCount] = useState(12); // 学習記録：発音回数など
+            const [practiceCount, setPracticeCount] = useState(12);
 
             const [searchQuery, setSearchQuery] = useState('');
             const [searchResult, setSearchResult] = useState(null);
@@ -347,7 +313,7 @@
                 setEggExp(e => {
                     const next = e + amt * 2;
                     if (next >= 100 && !isHatched) {
-                        return 100; // マックス状態にする（通知ポップアップは出さず、育成ルームでチェックしてもらう）
+                        return 100;
                     }
                     return next >= 100 ? 100 : next;
                 });
@@ -362,7 +328,6 @@
                 }
             };
 
-            // Googleの綺麗な女性音声（台湾華語: zh-TW）を優先選択
             const speakText = (text, isWordOnly = false) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
@@ -399,7 +364,7 @@
 
             const getFullSentence = () => {
                 if (selectedPattern.id === 10) {
-                    return currentWordObj.zh; // 感想・使える型カテゴリーは単語自体が文になるものも含む
+                    return currentWordObj.zh;
                 }
                 return selectedPattern.formula.replace('～', currentWordObj.zh);
             };
@@ -463,7 +428,6 @@
                 return <span className="text-xs font-bold text-orange-600 bg-amber-100 px-2 py-0.5 rounded-lg border border-slate-800">ピン音: {wordObj.pinyin}</span>;
             };
 
-            // 初回セットアップ画面
             if (!isSetupDone) {
                 return (
                     <div className="max-w-md mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen bg-amber-50 text-slate-900 font-sans">
@@ -567,7 +531,7 @@
                         </button>
                     </div>
 
-                    {/* たまご育成ルーム（こちらからチェックしに行って孵化する形式） */}
+                    {/* たまご育成ルーム */}
                     {activeTab === 'rewards' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
@@ -607,7 +571,7 @@
                         </div>
                     )}
 
-                    {/* シチュエーション別の台湾華語ルーム */}
+                    {/* シチュエーションルーム */}
                     {activeTab === 'situations' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
@@ -760,10 +724,10 @@
                                 </div>
                             </div>
 
-                            {/* 2. 単語の入れ替え選択（カラフルに改良） */}
+                            {/* 2. 単語の入れ替え選択（カラフル単語ボタン） */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3 flex items-center justify-between">
-                                    <span>👇 単語をタップして入れ替え（カラフル連動）</span>
+                                    <span>👇 単語をタップして入れ替え（カラフルで見やすい！）</span>
                                     <span className="text-[10px] text-orange-600 bg-amber-100 px-2 py-0.5 rounded border border-slate-800">タップで単語音声</span>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
@@ -776,7 +740,7 @@
                                                 className={`p-3 rounded-2xl border-2 transition active:translate-y-0.5 text-left ${w.color} ${
                                                     isSelected 
                                                         ? 'ring-4 ring-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-black scale-105' 
-                                                        : 'shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-bold opacity-90 hover:opacity-100'
+                                                        : 'shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-bold'
                                                 }`}
                                             >
                                                 <div className="text-sm truncate">{w.zh}</div>
@@ -825,5 +789,3 @@
     </script>
 </body>
 </html>
-
-```
