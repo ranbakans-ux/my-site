@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# 翻訳辞書
+# 翻訳辞書（通訳レベル・正しい語順に最適化）
 TRANS = {
     "夜市は何時に始まりますか？": "請問夜市幾點開始？",
     "営業開始は何時ですか？": "請問幾點開始營業？",
@@ -9,7 +9,7 @@ TRANS = {
     "ラストオーダーは何時ですか？": "請問幾點最後點餐？"
 }
 
-# 注音データ
+# 注音データ（1文字ずつ丁寧に発音のコツを記載）
 BOPO = [
     ("ㄅ", "b", "唇を合わせて、息を弾ませて「バ」"),
     ("ㄆ", "p", "強く息を破裂させて「パ」"),
@@ -17,41 +17,47 @@ BOPO = [
     ("ㄈ", "f", "上の歯を下唇にあてて「ファ」")
 ]
 
-class App:
+class TaiwanApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("翻訳 ＆ たまご育成")
-        self.root.geometry("400x500")
+        self.root.title("🇹🇼 台湾華語翻訳機 ＆ たまご育成トレーニング 🐣")
+        self.root.geometry("400x520")
+        self.root.config(bg="#FFF8F0")
         self.idx = 0
 
         # --- 翻訳エリア ---
-        tk.Label(root, text="【 台湾華語 翻訳機 】", font=("Meiryo", 11, "bold"), fg="#D35400").pack(pady=5)
+        tk.Label(root, text="【 台湾華語 翻訳機 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#D35400").pack(pady=5)
         
-        self.ent = tk.Entry(root, font=("Meiryo", 11), width=30)
+        self.ent = tk.Entry(root, font=("Meiryo", 11), width=32)
         self.ent.pack(pady=5)
+        self.ent.bind("<Return>", lambda event: self.do_trans())
         
-        tk.Button(root, text="翻訳する", bg="#E67E22", fg="white", command=self.do_trans).pack(pady=3)
+        tk.Button(root, text="翻訳する", font=("Meiryo", 10, "bold"), bg="#E67E22", fg="white", command=self.do_trans).pack(pady=3)
         
-        self.txt = tk.Text(root, font=("Meiryo", 11), height=3, width=30, bg="#FDEBD0")
+        self.txt = tk.Text(root, font=("Meiryo", 11), height=3, width=32, bg="#FDEBD0")
         self.txt.pack(pady=5)
 
-        tk.Label(root, text="----------------------------------------").pack(pady=5)
+        tk.Label(root, text="----------------------------------------", bg="#FFF8F0", fg="#BDC3C7").pack(pady=2)
 
         # --- 注音トレーニングエリア ---
-        tk.Label(root, text="【 注音（ㄅㄆㄇ）トレーニング 】", font=("Meiryo", 11, "bold"), fg="#27AE60").pack(pady=5)
+        tk.Label(root, text="【 注音（ㄅㄆㄇ）トレーニング 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#27AE60").pack(pady=5)
         
-        self.lbl_bopo = tk.Label(root, text="", font=("Meiryo", 20, "bold"), fg="#2C3E50")
+        self.lbl_bopo = tk.Label(root, text="", font=("Meiryo", 18, "bold"), bg="#FFF8F0", fg="#2C3E50")
         self.lbl_bopo.pack(pady=5)
         
-        self.lbl_guide = tk.Label(root, text="", font=("Meiryo", 10), wraplength=350, justify="center")
+        self.lbl_guide = tk.Label(root, text="", font=("Meiryo", 10), bg="#FFF8F0", wraplength=350, justify="center")
         self.lbl_guide.pack(pady=5)
         
-        tk.Button(root, text="次の注音へ ➡️", bg="#2ECC71", fg="white", command=self.next_bopo).pack(pady=5)
+        tk.Button(root, text="次の注音へ ➡️", font=("Meiryo", 10), bg="#2ECC71", fg="white", command=self.next_bopo).pack(pady=5)
 
+        # 初期表示更新
         self.update_bopo()
 
     def do_trans(self):
         q = self.ent.get().strip()
+        if not q:
+            messagebox.showwarning("警告", "テキストを入力してくださいピヨ！")
+            return
         ans = TRANS.get(q, f"【通訳モード】 {q}")
         self.txt.delete("1.0", tk.END)
         self.txt.insert(tk.END, ans)
@@ -67,5 +73,6 @@ class App:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    App(root)
+    app = TaiwanApp(root)
     root.mainloop()
+    
