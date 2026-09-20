@@ -19,7 +19,6 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // とり先生の顔SVG（アイコン用）
         const ToriAvatar = () => (
             <svg viewBox="0 0 100 100" className="w-full h-full">
                 <rect x="5" y="5" width="90" height="90" rx="45" fill="#FFE500" stroke="#000" strokeWidth="6"/>
@@ -34,44 +33,44 @@
             </svg>
         );
 
-        // 10の基本型と各10単語
+        // 10の基本型（単語をカラフルに設定）
         const CORE_PATTERNS = [
             {
                 id: 1,
                 name: "【注文】〜をください",
                 formula: "我要～",
                 color: "bg-rose-500",
-                lightColor: "bg-rose-50",
+                lightColor: "bg-rose-50 text-rose-700",
                 words: [
-                    { zh: "珍珠奶茶", zhuyin: "ㄓㄣ ㄓㄨ ㄋㄞˇ ㄔㄚˊ", pinyin: "zhēn zhū nǎi chá", ja: "タピオカミルクティー", trans: "タピオカミルクティーをください" },
-                    { zh: "小籠包", zhuyin: "ㄒㄧㄠˇ ㄌㄨㄥˊ ㄅㄠ", pinyin: "xiǎo lóng bāo", ja: "小籠包", trans: "小籠包をください" },
-                    { zh: "芒果冰", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄅㄧㄥ", pinyin: "máng guǒ bīng", ja: "マンゴーかき氷", trans: "マンゴーかき氷をください" },
-                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをください" },
-                    { zh: "水", zhuyin: "ㄕㄨㄟˇ", pinyin: "shuǐ", ja: "お水", trans: "お水をください" },
-                    { zh: "雞排", zhuyin: "ㄐㄧ ㄆㄞˊ", pinyin: "jī pái", ja: "台湾風フライドチキン", trans: "台湾風フライドチキンをください" },
-                    { zh: "牛肉麵", zhuyin: "ㄋㄧㄡˊ ㄖㄡˋ ㄇㄧㄢˋ", pinyin: "niú ròu miàn", ja: "牛肉麺", trans: "牛肉麺をください" },
-                    { zh: "豆漿", zhuyin: "ㄉㄡˋ ㄐㄧㄤ", pinyin: "dòu jiāng", ja: "豆乳", trans: "豆乳をください" },
-                    { zh: "大腸包小腸", zhuyin: "ㄉㄚˋ ㄔㄤˊ ㄅㄠ ㄒㄧㄠˇ ㄔㄤˊ", pinyin: "dà cháng bāo xiǎo cháng", ja: "台湾式ソーセージ", trans: "台湾式ソーセージをください" },
-                    { zh: "滷肉飯", zhuyin: "ㄌㄨˇ ㄖㄡˋ ㄈㄢˋ", pinyin: "lǔ ròu fàn", ja: "ルーローハン", trans: "ルーローハンをください" }
+                    { zh: "珍珠奶茶", zhuyin: "ㄓㄣ ㄓㄨ ㄋㄞˇ ㄔㄚˊ", pinyin: "zhēn zhū nǎi chá", ja: "タピオカミルクティー", trans: "タピオカミルクティーをください", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "小籠包", zhuyin: "ㄒㄧㄠˇ ㄌㄨㄥˊ ㄅㄠ", pinyin: "xiǎo lóng bāo", ja: "小籠包", trans: "小籠包をください", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "芒果冰", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄅㄧㄥ", pinyin: "máng guǒ bīng", ja: "マンゴーかき氷", trans: "マンゴーかき氷をください", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをください", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "水", zhuyin: "ㄕㄨㄟˇ", pinyin: "shuǐ", ja: "お水", trans: "お水をください", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "雞排", zhuyin: "ㄐㄧ ㄆㄞˊ", pinyin: "jī pái", ja: "台湾風フライドチキン", trans: "台湾風フライドチキンをください", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "牛肉麵", zhuyin: "ㄋㄧㄡˊ ㄖㄡˋ ㄇㄧㄢˋ", pinyin: "niú ròu miàn", ja: "牛肉麺", trans: "牛肉麺をください", color: "bg-red-100 text-red-900 border-red-300" },
+                    { zh: "豆漿", zhuyin: "ㄉㄡˋ ㄐㄧㄤ", pinyin: "dòu jiāng", ja: "豆乳", trans: "豆乳をください", color: "bg-stone-200 text-stone-900 border-stone-300" },
+                    { zh: "大腸包小腸", zhuyin: "ㄉㄚˋ ㄔㄤˊ ㄅㄠ ㄒㄧㄠˇ ㄔㄤˊ", pinyin: "dà cháng bāo xiǎo cháng", ja: "台湾式ソーセージ", trans: "台湾式ソーセージをください", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "滷肉飯", zhuyin: "ㄌㄨˇ ㄖㄡˋ ㄈㄢˋ", pinyin: "lǔ ròu fàn", ja: "ルーローハン", trans: "ルーローハンをください", color: "bg-amber-200 text-amber-900 border-amber-400" }
                 ]
             },
             {
                 id: 2,
-                name: "【お願い】〜お願いします",
+                name: "【お願い】〜お願いします（メニューなどを追加）",
                 formula: "請給我～",
                 color: "bg-amber-500",
-                lightColor: "bg-amber-50",
+                lightColor: "bg-amber-50 text-amber-700",
                 words: [
-                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋を1つお願いします" },
-                    { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "レシート", trans: "レシートをお願いします" },
-                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票（レシート）", trans: "統一発票をお願いします" },
-                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器をお願いします" },
-                    { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンをお願いします" },
-                    { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷をお願いします" },
-                    { zh: "吸管", zhuyin: "ㄒㄧ ㄍㄨㄢˇ", pinyin: "xī guǎn", ja: "ストロー", trans: "ストローをお願いします" },
-                    { zh: "中文菜單", zhuyin: "ㄓㄨㄥ ㄨㄣˊ ㄘㄞˋ ㄉㄢ", pinyin: "zhōng wén cài dān", ja: "中国語メニュー", trans: "中国語メニューをお願いします" },
-                    { zh: "熱水", zhuyin: "ㄖㄜˋ ㄕㄨㄟˇ", pinyin: "rè shuǐ", ja: "お湯", trans: "お湯をお願いします" },
-                    { zh: "分裝盤", zhuyin: "ㄈㄣ ㄓㄨㄤ ㄆㄢˊ", pinyin: "fēn zhuāng pán", ja: "取り皿", trans: "取り皿をお願いします" }
+                    { zh: "菜單", zhuyin: "ㄘㄞˋ ㄉㄢ", pinyin: "cài dān", ja: "メニュー", trans: "メニューをお願いします", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "一個袋子", zhuyin: "ㄧ ㄍㄜˋ ㄉㄞˋ ㄗ˙", pinyin: "yī gè dài zi", ja: "袋1つ", trans: "袋を1つお願いします", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "收據", zhuyin: "ㄕㄡ ㄐㄩˋ", pinyin: "shōu jù", ja: "レシート", trans: "レシートをお願いします", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "發票", zhuyin: "ㄈㄚ ㄆㄧㄠˋ", pinyin: "fā piào", ja: "統一発票", trans: "統一発票（レシート）をお願いします", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "免洗餐具", zhuyin: "ㄇㄧㄢˇ ㄒㄧˇ ㄘㄢ ㄐㄩˋ", pinyin: "miǎn xǐ cān jù", ja: "使い捨て食器", trans: "使い捨て食器をお願いします", color: "bg-lime-100 text-lime-900 border-lime-300" },
+                    { zh: "紙巾", zhuyin: "ㄓˇ ㄐㄧㄣ", pinyin: "zhǐ jīn", ja: "紙ナプキン", trans: "紙ナプキンをお願いします", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "冰塊", zhuyin: "ㄅㄧㄥ ㄎㄨㄞˋ", pinyin: "bīng kuài", ja: "氷", trans: "氷をお願いします", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
+                    { zh: "吸管", zhuyin: "ㄒㄧ ㄍㄨㄢˇ", pinyin: "xī guǎn", ja: "ストロー", trans: "ストローをお願いします", color: "bg-teal-100 text-teal-900 border-teal-300" },
+                    { zh: "熱水", zhuyin: "ㄖㄜˋ ㄕㄨㄟˇ", pinyin: "rè shuǐ", ja: "お湯", trans: "お湯をお願いします", color: "bg-red-100 text-red-900 border-red-300" },
+                    { zh: "分裝盤", zhuyin: "ㄈㄣ ㄓㄨㄤ ㄆㄢˊ", pinyin: "fēn zhuāng pán", ja: "取り皿", trans: "取り皿をお願いします", color: "bg-purple-100 text-purple-900 border-purple-300" }
                 ]
             },
             {
@@ -79,37 +78,37 @@
                 name: "【移動】〜へどうやって行きますか？",
                 formula: "請問要怎麼去～？",
                 color: "bg-emerald-500",
-                lightColor: "bg-emerald-50",
+                lightColor: "bg-emerald-50 text-emerald-700",
                 words: [
-                    { zh: "台北101", zhuyin: "ㄊㄞˊ ㄅㄟˇ ㄧ ㄌㄧㄥˊ ㄧ", pinyin: "tái běi yī líng yī", ja: "台北101", trans: "台北101へはどうやって行きますか？" },
-                    { zh: "夜市", zhuyin: "ㄧㄝˋ ㄕˋ", pinyin: "yè shì", ja: "夜市", trans: "夜市へはどうやって行きますか？" },
-                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅へはどうやって行きますか？" },
-                    { zh: "九份", zhuyin: "ㄐㄧㄡˇ ㄈㄣˋ", pinyin: "jiǔ fèn", ja: "九份", trans: "九份へはどうやって行きますか？" },
-                    { zh: "故宮博物院", zhuyin: "ㄍㄨˋ ㄍㄨㄥ ㄅㄛˊ ㄨˋ ㄩㄢˋ", pinyin: "gù gōng bó wù yuàn", ja: "国立故宮博物院", trans: "国立故宮博物院へはどうやって行きますか？" },
-                    { zh: "西門町", zhuyin: "ㄒㄧ ㄇㄣˊ ㄉㄧㄥ", pinyin: "xī mén dīng", ja: "西門町", trans: "西門町へはどうやって行きますか？" },
-                    { zh: "中正紀念堂", zhuyin: "ㄓㄨㄥ ㄓㄥˋ ㄐㄧˋ ㄋㄧㄢˋ ㄊㄤˊ", pinyin: "zhōng zhèng jì niàn táng", ja: "中正紀念堂", trans: "中正紀念堂へはどうやって行きますか？" },
-                    { zh: "龍山寺", zhuyin: "ㄌㄨㄥˊ ㄕㄢ ㄙˋ", pinyin: "lóng shān sì", ja: "龍山寺", trans: "龍山寺へはどうやって行きますか？" },
-                    { zh: "機場", zhuyin: "ㄐㄧ ㄔㄤˇ", pinyin: "jī chǎng", ja: "空港", trans: "空港へはどうやって行きますか？" },
-                    { zh: "飯店", zhuyin: "ㄈㄢˋ ㄉㄧㄢˋ", pinyin: "fàn diàn", ja: "ホテル", trans: "ホテルへはどうやって行きますか？" }
+                    { zh: "台北101", zhuyin: "ㄊㄞˊ ㄅㄟˇ ㄧ ㄌㄧㄥˊ ㄧ", pinyin: "tái běi yī líng yī", ja: "台北101", trans: "台北101へはどうやって行きますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "夜市", zhuyin: "ㄧㄝˋ ㄕˋ", pinyin: "yè shì", ja: "夜市", trans: "夜市へはどうやって行きますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅へはどうやって行きますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "九份", zhuyin: "ㄐㄧㄡˇ ㄈㄣˋ", pinyin: "jiǔ fèn", ja: "九份", trans: "九份へはどうやって行きますか？", color: "bg-red-100 text-red-900 border-red-300" },
+                    { zh: "故宮博物院", zhuyin: "ㄍㄨˋ ㄍㄨㄥ ㄅㄛˊ ㄨˋ ㄩㄢˋ", pinyin: "gù gōng bó wù yuàn", ja: "国立故宮博物院", trans: "国立故宮博物院へはどうやって行きますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "西門町", zhuyin: "ㄒㄧ ㄇㄣˊ ㄉㄧㄥ", pinyin: "xī mén dīng", ja: "西門町", trans: "西門町へはどうやって行きますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "中正紀念堂", zhuyin: "ㄓㄨㄥ ㄓㄥˋ ㄐㄧˋ ㄋㄧㄢˋ ㄊㄤˊ", pinyin: "zhōng zhèng jì niàn táng", ja: "中正紀念堂", trans: "中正紀念堂へはどうやって行きますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "龍山寺", zhuyin: "ㄌㄨㄥˊ ㄕㄢ ㄙˋ", pinyin: "lóng shān sì", ja: "龍山寺", trans: "龍山寺へはどうやって行きますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "機場", zhuyin: "ㄐㄧ ㄔㄤˇ", pinyin: "jī chǎng", ja: "空港", trans: "空港へはどうやって行きますか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "飯店", zhuyin: "ㄈㄢˋ ㄉㄧㄢˋ", pinyin: "fàn diàn", ja: "ホテル", trans: "ホテルへはどうやって行きますか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
                 ]
             },
             {
                 id: 4,
-                name: "【場所】〜はどこですか？",
+                name: "【場所】〜はどこですか？（洗手間に変更）",
                 formula: "請問～在哪裡？",
                 color: "bg-cyan-500",
-                lightColor: "bg-cyan-50",
+                lightColor: "bg-cyan-50 text-cyan-700",
                 words: [
-                    { zh: "廁所", zhuyin: "ㄘㄜˋ ㄙㄨㄛˇ", pinyin: "cè suǒ", ja: "トイレ", trans: "トイレはどこですか？" },
-                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅はどこですか？" },
-                    { zh: "便利商店", zhuyin: "ㄅㄧㄢˋ ㄌㄧˋ ㄕㄤ ㄉㄧㄢˋ", pinyin: "biàn lì shāng diàn", ja: "コンビニ", trans: "コンビニはどこですか？" },
-                    { zh: "出口", zhuyin: "ㄔㄨ ㄎㄡˇ", pinyin: "chū kǒu", ja: "出口", trans: "出口はどこですか？" },
-                    { zh: "寄物櫃", zhuyin: "ㄐㄧˋ ㄨˋ ㄍㄨㄟˋ", pinyin: "jì wù guì", ja: "コインロッカー", trans: "コインロッカーはどこですか？" },
-                    { zh: "售票處", zhuyin: "ㄕㄡˋ ㄆㄧㄠˋ ㄔㄨˋ", pinyin: "shòu piào chù", ja: "切符売り場", trans: "切符売り場はどこですか？" },
-                    { zh: "服務台", zhuyin: "ㄈㄨˊ ㄨˋ ㄊㄞˊ", pinyin: "fú wù tái", ja: "インフォメーション", trans: "インフォメーションはどこですか？" },
-                    { zh: "ATM", zhuyin: "ㄗˋ ㄉㄨㄥ ㄑㄩˇ ㄎㄨㄢˇ ㄐㄧ", pinyin: "zì dōng qǔ kuǎn jī", ja: "ATM", trans: "ATMはどこですか？" },
-                    { zh: "藥局", zhuyin: "ㄧㄠˋ ㄐㄩˊ", pinyin: "yào jú", ja: "薬局", trans: "薬局はどこですか？" },
-                    { zh: "醫院", zhuyin: "ㄧ ㄩㄢˋ", pinyin: "yī yuàn", ja: "病院", trans: "病院はどこですか？" }
+                    { zh: "洗手間", zhuyin: "ㄒㄧˇ ㄕㄡˇ ㄐㄧㄢ", pinyin: "xǐ shǒu jiān", ja: "お手洗い（綺麗）", trans: "お手洗いはどこですか？", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
+                    { zh: "捷運站", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ ㄓㄢˋ", pinyin: "jié yùn zhàn", ja: "MRT駅", trans: "MRT駅はどこですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "便利商店", zhuyin: "ㄅㄧㄢˋ ㄌㄧˋ ㄕㄤ ㄉㄧㄢˋ", pinyin: "biàn lì shāng diàn", ja: "コンビニ", trans: "コンビニはどこですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "出口", zhuyin: "ㄔㄨ ㄎㄡˇ", pinyin: "chū kǒu", ja: "出口", trans: "出口はどこですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "寄物櫃", zhuyin: "ㄐㄧˋ ㄨˋ ㄍㄨㄟˋ", pinyin: "jì wù guì", ja: "コインロッカー", trans: "コインロッカーはどこですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "售票處", zhuyin: "ㄕㄡˋ ㄆㄧㄠˋ ㄔㄨˋ", pinyin: "shòu piào chù", ja: "切符売り場", trans: "切符売り場はどこですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "服務台", zhuyin: "ㄈㄨˊ ㄨˋ ㄊㄞˊ", pinyin: "fú wù tái", ja: "インフォメーション", trans: "インフォメーションはどこですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
+                    { zh: "ATM", zhuyin: "ㄗˋ ㄉㄨㄥ ㄑㄩˇ ㄎㄨㄢˇ ㄐㄧ", pinyin: "zì dōng qǔ kuǎn jī", ja: "ATM", trans: "ATMはどこですか？", color: "bg-stone-200 text-stone-900 border-stone-300" },
+                    { zh: "藥局", zhuyin: "ㄧㄠˋ ㄐㄩˊ", pinyin: "yào jú", ja: "薬局", trans: "薬局はどこですか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "醫院", zhuyin: "ㄧ ㄩㄢˋ", pinyin: "yī yuàn", ja: "病院", trans: "病院はどこですか？", color: "bg-red-100 text-red-900 border-red-300" }
                 ]
             },
             {
@@ -117,18 +116,18 @@
                 name: "【買い物】〜は売っていますか？",
                 formula: "請問有賣～嗎？",
                 color: "bg-blue-500",
-                lightColor: "bg-blue-50",
+                lightColor: "bg-blue-50 text-blue-700",
                 words: [
-                    { zh: "鳳梨酥", zhuyin: "ㄈㄥˋ ㄌㄧˊ ㄙㄨ", pinyin: "fèng lí sū", ja: "パイナップルケーキ", trans: "パイナップルケーキは売っていますか？" },
-                    { zh: "烏龍茶", zhuyin: "ㄨ ㄌㄨㄥˊ ㄔㄚˊ", pinyin: "wū lóng chá", ja: "烏龍茶", trans: "烏龍茶は売っていますか？" },
-                    { zh: "明信片", zhuyin: "ㄇㄧㄥˊ ㄒㄧㄣˋ ㄆㄧㄢˋ", pinyin: "míng xìn piàn", ja: "ポストカード", trans: "ポストカードは売っていますか？" },
-                    { zh: "悠遊卡", zhuyin: "ㄧㄡ ㄧㄡˊ ㄎㄚˇ", pinyin: "yóu yóu kǎ", ja: "悠遊カード", trans: "悠遊カードは売っていますか？" },
-                    { zh: "雨傘", zhuyin: "ㄩˇ ㄙㄢˇ", pinyin: "yǔ sǎn", ja: "傘", trans: "傘は売っていますか？" },
-                    { zh: "茶葉", zhuyin: "ㄔㄚˊ ㄧㄝˋ", pinyin: "chá yè", ja: "茶葉", trans: "茶葉は売っていますか？" },
-                    { zh: "磁鐵", zhuyin: "ㄘˊ ㄊㄧㄝˇ", pinyin: "cí tiě", ja: "マグネット", trans: "マグネットは売っていますか？" },
-                    { zh: "芒果乾", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄍㄢ", pinyin: "máng guǒ gān", ja: "ドライマンゴー", trans: "ドライマンゴーは売っていますか？" },
-                    { zh: "紀念品", zhuyin: "ㄐㄧˋ ㄋㄧㄢˋ ㄆㄧㄣˇ", pinyin: "jì niàn pǐn", ja: "記念品・お土産", trans: "記念品やお土産は売っていますか？" },
-                    { zh: "SIM卡", zhuyin: "ㄙ ㄇㄨˇ ㄎㄚˇ", pinyin: "sī mǔ kǎ", ja: "SIMカード", trans: "SIMカードは売っていますか？" }
+                    { zh: "鳳梨酥", zhuyin: "ㄈㄥˋ ㄌㄧˊ ㄙㄨ", pinyin: "fèng lí sū", ja: "パイナップルケーキ", trans: "パイナップルケーキは売っていますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "烏龍茶", zhuyin: "ㄨ ㄌㄨㄥˊ ㄔㄚˊ", pinyin: "wū lóng chá", ja: "烏龍茶", trans: "烏龍茶は売っていますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "明信片", zhuyin: "ㄇㄧㄥˊ ㄒㄧㄣˋ ㄆㄧㄢˋ", pinyin: "míng xìn piàn", ja: "ポストカード", trans: "ポストカードは売っていますか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "悠遊卡", zhuyin: "ㄧㄡ ㄧㄡˊ ㄎㄚˇ", pinyin: "yóu yóu kǎ", ja: "悠遊カード", trans: "悠遊カードは売っていますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "雨傘", zhuyin: "ㄩˇ ㄙㄢˇ", pinyin: "yǔ sǎn", ja: "傘", trans: "傘は売っていますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "茶葉", zhuyin: "ㄔㄚˊ ㄧㄝˋ", pinyin: "chá yè", ja: "茶葉", trans: "茶葉は売っていますか？", color: "bg-lime-100 text-lime-900 border-lime-300" },
+                    { zh: "磁鐵", zhuyin: "ㄘˊ ㄊㄧㄝˇ", pinyin: "cí tiě", ja: "マグネット", trans: "マグネットは売っていますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "芒果乾", zhuyin: "ㄇㄤˊ ㄍㄨㄛˇ ㄍㄢ", pinyin: "máng guǒ gān", ja: "ドライマンゴー", trans: "ドライマンゴーは売っていますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "紀念品", zhuyin: "ㄐㄧˋ ㄋㄧㄢˋ ㄆㄧㄣˇ", pinyin: "jì niàn pǐn", ja: "お土産", trans: "お土産は売っていますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "SIM卡", zhuyin: "ㄙ ㄇㄨˇ ㄎㄚˇ", pinyin: "sī mǔ kǎ", ja: "SIMカード", trans: "SIMカードは売っていますか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
                 ]
             },
             {
@@ -136,37 +135,37 @@
                 name: "【値段】いくらですか？",
                 formula: "請問～多少錢？",
                 color: "bg-indigo-500",
-                lightColor: "bg-indigo-50",
+                lightColor: "bg-indigo-50 text-indigo-700",
                 words: [
-                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これはいくらですか？" },
-                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれはいくらですか？" },
-                    { zh: "總共", zhuyin: "ㄗㄨㄥˇ ㄍㄨㄥˋ", pinyin: "zǒng gòng", ja: "合計", trans: "合計でいくらですか？" },
-                    { zh: "門票", zhuyin: "ㄇㄣˊ ㄆㄧㄠˋ", pinyin: "mén piào", ja: "入場券", trans: "入場券はいくらですか？" },
-                    { zh: "運費", zhuyin: "ㄩㄣˋ ㄈㄟˋ", pinyin: "yùn fèi", ja: "送料", trans: "送料はいくらですか？" },
-                    { zh: "一斤", zhuyin: "ㄧ ㄐㄧㄣ", pinyin: "yī jīn", ja: "1斤（約600g）", trans: "1斤あたりいくらですか？" },
-                    { zh: "一件", zhuyin: "ㄧ ㄐㄧㄢˋ", pinyin: "yī jiàn", ja: "1着", trans: "1着いくらですか？" },
-                    { zh: "一箱", zhuyin: "ㄧ ㄒㄧㄤ", pinyin: "yī xiāng", ja: "1箱", trans: "1箱いくらですか？" },
-                    { zh: "一日遊", zhuyin: "ㄧ ㄖˋ ㄧㄡˊ", pinyin: "yī rì yóu", ja: "日帰りツアー", trans: "日帰りツアーはいくらですか？" },
-                    { zh: "包車", zhuyin: "ㄅㄠ ㄔㄜ", pinyin: "bāo chē", ja: "チャーター車", trans: "チャーター車はいくらですか？" }
+                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これはいくらですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
+                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ", trans: "あれはいくらですか？", color: "bg-violet-100 text-violet-900 border-violet-300" },
+                    { zh: "總共", zhuyin: "ㄗㄨㄥˇ ㄍㄨㄥˋ", pinyin: "zǒng gòng", ja: "合計", trans: "合計でいくらですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "門票", zhuyin: "ㄇㄣˊ ㄆㄧㄠˋ", pinyin: "mén piào", ja: "入場券", trans: "入場券はいくらですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "運費", zhuyin: "ㄩㄣˋ ㄈㄟˋ", pinyin: "yùn fèi", ja: "送料", trans: "送料はいくらですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "一斤", zhuyin: "ㄧ ㄐㄧㄣ", pinyin: "yī jīn", ja: "1斤（約600g）", trans: "1斤あたりいくらですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "一件", zhuyin: "ㄧ ㄐㄧㄢˋ", pinyin: "yī jiàn", ja: "1着", trans: "1着いくらですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "一箱", zhuyin: "ㄧ ㄒㄧㄤ", pinyin: "yī xiāng", ja: "1箱", trans: "1箱いくらですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "一日遊", zhuyin: "ㄧ ㄖˋ ㄧㄡˊ", pinyin: "yī rì yóu", ja: "日帰りツアー", trans: "日帰りツアーはいくらですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "包車", zhuyin: "ㄅㄠ ㄔㄜ", pinyin: "bāo chē", ja: "チャーター車", trans: "チャーター車はいくらですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
                 ]
             },
             {
                 id: 7,
-                name: "【時間】何時ですか？／何時からですか？",
-                formula: "請問～幾點？／幾點開始？",
+                name: "【時間】なんじですか？（シンプル化）",
+                formula: "請問～幾点？",
                 color: "bg-purple-500",
-                lightColor: "bg-purple-50",
+                lightColor: "bg-purple-50 text-purple-700",
                 words: [
-                    { zh: "開始營業", zhuyin: "ㄎㄞ ㄕˇ ㄧㄥˊ ㄧㄝˋ", pinyin: "kāi shǐ yíng yè", ja: "営業開始", trans: "営業開始は何時ですか？" },
-                    { zh: "打烊", zhuyin: "ㄉㄚˇ ㄧㄤˋ", pinyin: "dǎ yàng", ja: "閉店（店じまい）", trans: "閉店は何時ですか？" },
-                    { zh: "最後點餐", zhuyin: "ㄗㄨㄟˋ ㄏㄡˋ ㄉㄧㄢˇ ㄘㄢ", pinyin: "zuì hòu diǎn cān", ja: "ラストオーダー", trans: "ラストオーダーは何時ですか？" },
-                    { zh: "開門", zhuyin: "ㄎㄞ ㄇㄣˊ", pinyin: "kāi mén", ja: "開店", trans: "開店は何時ですか？" },
-                    { zh: "幾點", zhuyin: "ㄐㄧˇ ㄉㄧㄢˇ", pinyin: "jǐ diǎn", ja: "何時", trans: "何時ですか？" },
-                    { zh: "休息", zhuyin: "ㄒㄧㄡ ㄒㄧˊ", pinyin: "xiū xí", ja: "休憩・定休日", trans: "休憩時間は何時ですか？" },
-                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？" },
-                    { zh: "早班", zhuyin: "ㄗㄠˇ ㄅㄢ", pinyin: "zǎo bān", ja: "モーニング", trans: "モーニングは何時ですか？" },
-                    { zh: "夜市開市", zhuyin: "ㄧㄝˋ ㄕˋ ㄎㄞ ㄕˋ", pinyin: "yè shì kāi shì", ja: "夜市オープン", trans: "夜市オープンは何時ですか？" },
-                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車時間", trans: "発車は何時ですか？" }
+                    { zh: "開始營業", zhuyin: "ㄎㄞ ㄕˇ ㄧㄥˊ ㄧㄝˋ", pinyin: "kāi shǐ yíng yè", ja: "営業開始", trans: "営業開始は何時ですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "打烊", zhuyin: "ㄉㄚˇ ㄧㄤˋ", pinyin: "dǎ yàng", ja: "閉店", trans: "閉店は何時ですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "最後點餐", zhuyin: "ㄗㄨㄟˋ ㄏㄡˋ ㄉㄧㄢˇ ㄘㄢ", pinyin: "zuì hòu diǎn cān", ja: "ラストオーダー", trans: "ラストオーダーは何時ですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "開門", zhuyin: "ㄎㄞ ㄇㄣˊ", pinyin: "kāi mén", ja: "開店", trans: "開店は何時ですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "休息", zhuyin: "ㄒㄧㄡ ㄒㄧˊ", pinyin: "xiū xí", ja: "休憩・定休日", trans: "休憩時間は何時ですか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "結束", zhuyin: "ㄐㄧㄝˊ ㄕㄨˋ", pinyin: "jié shù", ja: "終了", trans: "終了は何時ですか？", color: "bg-indigo-100 text-indigo-900 border-indigo-300" },
+                    { zh: "早班", zhuyin: "ㄗㄠˇ ㄅㄢ", pinyin: "zǎo bān", ja: "モーニング", trans: "モーニングは何時ですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "夜市開市", zhuyin: "ㄧㄝˋ ㄕˋ ㄎㄞ ㄕˋ", pinyin: "yè shì kāi shì", ja: "夜市オープン", trans: "夜市オープンは何時ですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "發車", zhuyin: "ㄈㄚ ㄔㄜ", pinyin: "fā chē", ja: "発車", trans: "発車は何時ですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "現在", zhuyin: "ㄒㄧㄢˋ ㄗㄞˋ", pinyin: "xiàn zài", ja: "今", trans: "今何時ですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
                 ]
             },
             {
@@ -174,56 +173,92 @@
                 name: "【確認】〜できますか？",
                 formula: "可以～嗎？",
                 color: "bg-pink-500",
-                lightColor: "bg-pink-50",
+                lightColor: "bg-pink-50 text-pink-700",
                 words: [
-                    { zh: "刷卡", zhuyin: "ㄕㄨㄚ ㄎㄚˇ", pinyin: "shuā kǎ", ja: "カード払い", trans: "カード払いはできますか？" },
-                    { zh: "拍照", zhuyin: "ㄆㄞ ㄓㄠˋ", pinyin: "pāi zhào", ja: "写真撮影", trans: "写真は撮れますか？" },
-                    { zh: "外帶", zhuyin: "ㄨㄞˋ ㄉㄞˋ", pinyin: "wài dài", ja: "テイクアウト", trans: "テイクアウトはできますか？" },
-                    { zh: "內用", zhuyin: "ㄋㄟˋ ㄩㄥˋ", pinyin: "nèi yòng", ja: "イートイン", trans: "店内で食べられますか？" },
-                    { zh: "加熱", zhuyin: "ㄐㄧㄚ ㄖㄜˋ", pinyin: "jiā rè", ja: "温め（加熱）", trans: "温められますか？" },
-                    { zh: "寄行李", zhuyin: "ㄐㄧˋ ㄒㄧㄥˊ ㄌㄧˇ", pinyin: "jì xíng lǐ", ja: "荷物を預かる", trans: "荷物を預かってもらえますか？" },
-                    { zh: "訂位", zhuyin: "ㄉㄧㄥˋ ㄨㄟˋ", pinyin: "dìng wèi", ja: "予約", trans: "予約はできますか？" },
-                    { zh: "退稅", zhuyin: "ㄊㄨㄟˋ ㄕㄨㄟˋ", pinyin: "tuì shuì", ja: "免税手続き", trans: "免税手続きはできますか？" },
-                    { zh: "換錢", zhuyin: "ㄏㄨㄢˋ ㄑㄧㄢˊ", pinyin: "huàn qián", ja: "両替", trans: "両替はできますか？" },
-                    { zh: "加辣", zhuyin: "ㄐㄧㄚ ㄌㄚˋ", pinyin: "jiā là", ja: "辛くする", trans: "辛くできますか？" }
+                    { zh: "刷卡", zhuyin: "ㄕㄨㄚ ㄎㄚˇ", pinyin: "shuā kǎ", ja: "カード払い", trans: "カード払いはできますか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "拍照", zhuyin: "ㄆㄞ ㄓㄠˋ", pinyin: "pāi zhào", ja: "写真撮影", trans: "写真は撮れますか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "外帶", zhuyin: "ㄨㄞˋ ㄉㄞˋ", pinyin: "wài dài", ja: "テイクアウト", trans: "テイクアウトはできますか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "內用", zhuyin: "ㄋㄟˋ ㄩㄥˋ", pinyin: "nèi yòng", ja: "イートイン", trans: "店内で食べられますか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "加熱", zhuyin: "ㄐㄧㄚ ㄖㄜˋ", pinyin: "jiā rè", ja: "温め", trans: "温められますか？", color: "bg-red-100 text-red-900 border-red-300" },
+                    { zh: "寄行李", zhuyin: "ㄐㄧˋ ㄒㄧㄥˊ ㄌㄧˇ", pinyin: "jì xíng lǐ", ja: "荷物を預かる", trans: "荷物を預かってもらえますか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "訂位", zhuyin: "ㄉㄧㄥˋ ㄨㄟˋ", pinyin: "dìng wèi", ja: "予約", trans: "予約はできますか？", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "退稅", zhuyin: "ㄊㄨㄟˋ ㄕㄨㄟˋ", pinyin: "tuì shuì", ja: "免税手続き", trans: "免税手続きはできますか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "換錢", zhuyin: "ㄏㄨㄢˋ ㄑㄧㄢˊ", pinyin: "huàn qián", ja: "両替", trans: "両替はできますか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "加辣", zhuyin: "ㄐㄧㄚ ㄌㄚˋ", pinyin: "jiā là", ja: "辛くする", trans: "辛くできますか？", color: "bg-rose-200 text-rose-900 border-rose-400" }
                 ]
             },
             {
                 id: 9,
                 name: "【おすすめ】おすすめはどれですか？",
-                formula: "請問推薦～嗎？／推薦哪一個？",
+                formula: "請問推薦哪一個？",
                 color: "bg-orange-500",
-                lightColor: "bg-orange-50",
+                lightColor: "bg-orange-50 text-orange-700",
                 words: [
-                    { zh: "招牌菜", zhuyin: "ㄓㄠ ㄆㄞˊ ㄘㄞˋ", pinyin: "zhāo pái cài", ja: "看板メニュー", trans: "看板メニューのおすすめはどれですか？" },
-                    { zh: "人氣商品", zhuyin: "ㄖㄣˊ ㄑㄧˋ ㄕㄤ ㄆㄧㄣˇ", pinyin: "rén qì shāng pǐn", ja: "人気商品", trans: "人気商品のおすすめはどれですか？" },
-                    { zh: "伴手禮", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ", pinyin: "bàn shǒu lǐ", ja: "お土産", trans: "お土産のおすすめはどれですか？" },
-                    { zh: "甜點", zhuyin: "ㄊㄧㄢˊ ㄉㄧㄢˇ", pinyin: "tián diǎn", ja: "デザート", trans: "デザートのおすすめはどれですか？" },
-                    { zh: "口味", zhuyin: "ㄎㄡˇ ㄨㄟˋ", pinyin: "kǒu wèi", ja: "味・フレーバー", trans: "おすすめの味はどれですか？" },
-                    { zh: "飲料", zhuyin: "ㄧㄣˇ ㄌㄧㄠˋ", pinyin: "yǐn liào", ja: "ドリンク", trans: "おすすめのドリンクはどれですか？" },
-                    { zh: "季節限定", zhuyin: "ㄐㄧˋ ㄐㄧㄝˊ ㄒㄧㄢˋ ㄉㄧㄥˋ", pinyin: "jì jié xiàn dìng", ja: "季節限定商品", trans: "季節限定のおすすめはどれですか？" },
-                    { zh: "素食", zhuyin: "ㄙㄨˋ ㄕˊ", pinyin: "sù shí", ja: "ベジタリアン料理", trans: "ベジタリアン料理のおすすめはどれですか？" },
-                    { zh: "伴手禮盒", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ ㄏㄜˊ", pinyin: "bàn shǒu lǐ hé", ja: "ギフトボックス", trans: "ギフトボックスのおすすめはどれですか？" },
-                    { zh: "特產", zhuyin: "ㄊㄜˋ ㄔㄢˇ", pinyin: "tè chǎn", ja: "特産品", trans: "特産品のおすすめはどれですか？" }
+                    { zh: "招牌菜", zhuyin: "ㄓㄠ ㄆㄞˊ ㄘㄞˋ", pinyin: "zhāo pái cài", ja: "看板メニュー", trans: "看板メニューのおすすめはどれですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "人氣商品", zhuyin: "ㄖㄣˊ ㄑㄧˋ ㄕㄤ ㄆㄧㄣˇ", pinyin: "rén qì shāng pǐn", ja: "人気商品", trans: "人気商品のおすすめはどれですか？", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "伴手禮", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ", pinyin: "bàn shǒu lǐ", ja: "お土産", trans: "お土産のおすすめはどれですか？", color: "bg-yellow-100 text-yellow-900 border-yellow-300" },
+                    { zh: "甜點", zhuyin: "ㄊㄧㄢˊ ㄉㄧㄢˇ", pinyin: "tián diǎn", ja: "デザート", trans: "デザートのおすすめはどれですか？", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "口味", zhuyin: "ㄎㄡˇ ㄨㄟˋ", pinyin: "kǒu wèi", ja: "味", trans: "おすすめの味はどれですか？", color: "bg-rose-100 text-rose-900 border-rose-300" },
+                    { zh: "飲料", zhuyin: "ㄧㄣˇ ㄌㄧㄠˋ", pinyin: "yǐn liào", ja: "ドリンク", trans: "おすすめのドリンクはどれですか？", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "季節限定", zhuyin: "ㄐㄧˋ ㄐㄧㄝˊ ㄒㄧㄢˋ ㄉㄧㄥˋ", pinyin: "jì jié xiàn dìng", ja: "季節限定", trans: "季節限定のおすすめはどれですか？", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "素食", zhuyin: "ㄙㄨˋ ㄕˊ", pinyin: "sù shí", ja: "ベジタリアン", trans: "ベジタリアン料理のおすすめはどれですか？", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "伴手禮盒", zhuyin: "ㄅㄢˋ ㄕㄡˇ ㄌㄧˇ ㄏㄜˊ", pinyin: "bàn shǒu lǐ hé", ja: "ギフトボックス", trans: "ギフトボックスのおすすめはどれですか？", color: "bg-stone-200 text-stone-900 border-stone-300" },
+                    { zh: "特產", zhuyin: "ㄊㄜˋ ㄔㄢˇ", pinyin: "tè chǎn", ja: "特産品", trans: "特産品のおすすめはどれですか？", color: "bg-teal-100 text-teal-900 border-teal-300" }
                 ]
             },
             {
                 id: 10,
-                name: "【感想】〜は美味しいです",
-                formula: "～很好吃",
+                name: "【使える型】これ／あれ／不好意思／〜したい",
+                formula: "我想要～ / 不好意思",
                 color: "bg-teal-600",
-                lightColor: "bg-teal-50",
+                lightColor: "bg-teal-50 text-teal-700",
                 words: [
-                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ", trans: "これはとても美味しいです" },
-                    { zh: "夜市", zhuyin: "ㄧㄝˋ ㄕˋ", pinyin: "yè shì", ja: "夜市", trans: "夜市はとても楽しいです" },
-                    { zh: "這裡", zhuyin: "ㄓㄜˋ ㄌㄧˇ", pinyin: "zhè lǐ", ja: "ここ", trans: "ここはとてもきれいです" },
-                    { zh: "捷運", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ", pinyin: "jié yùn", ja: "MRT", trans: "MRTはとても便利です" },
-                    { zh: "台灣人", zhuyin: "ㄊㄞˊ ㄨㄢ ㄖㄣˊ", pinyin: "tái wān rén", ja: "台湾の人", trans: "台湾の人はとても親切です" },
-                    { zh: "價格", zhuyin: "ㄐㄧㄚˋ ㄍㄜˊ", pinyin: "jià gé", ja: "価格", trans: "価格はとても安いです" },
-                    { zh: "風景", zhuyin: "ㄈㄥ ㄐㄧㄥˇ", pinyin: "fēng jǐng", ja: "景色", trans: "景色はとても見ごたえがあります" },
-                    { zh: "天氣", zhuyin: "ㄊㄧㄢ ㄑㄧˋ", pinyin: "tiān qì", ja: "天気", trans: "天気はとても良いです" },
-                    { zh: "這裡的茶", zhuyin: "ㄓㄜˋ ㄌㄧˇ ㄉㄜ˙ ㄔㄚˊ", pinyin: "zhè lǐ de chá", ja: "ここのお茶", trans: "ここのお茶がとても美味しいです" },
-                    { zh: "大家的幫忙", zhuyin: "ㄉㄚˋ ㄐㄧㄚ ㄉㄜ˙ ㄅㄤ ㄇㄤˊ", pinyin: "dà jiā de bāng máng", ja: "皆さんの助け", trans: "皆さんの助けに感謝します" }
+                    { zh: "這個", zhuyin: "ㄓㄜˋ ㄍㄜˋ", pinyin: "zhè gè", ja: "これ（これをください）", trans:これをください", color: "bg-teal-100 text-teal-900 border-teal-300" },
+                    { zh: "那個", zhuyin: "ㄋㄚˋ ㄍㄜˋ", pinyin: "nà gè", ja: "あれ（あれをください）", trans: "あれをください", color: "bg-cyan-100 text-cyan-900 border-cyan-300" },
+                    { zh: "不好意思", zhuyin: "ㄅㄨˋ ㄏㄠˇ ㄧˋ ㄙ˙", pinyin: "bù hǎo yì si", ja: "すみません／失礼します", trans: "すみません", color: "bg-amber-100 text-amber-900 border-amber-300" },
+                    { zh: "我想看", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄎㄢˋ", pinyin: "wǒ xiǎng kàn", ja: "~を見たいです", trans: "見てもいいですか", color: "bg-blue-100 text-blue-900 border-blue-300" },
+                    { zh: "我想試穿", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄕˋ ㄔㄨㄢ", pinyin: "wǒ xiǎng shì chuān", ja: "~を試着したいです", trans: "試着してもいいですか", color: "bg-purple-100 text-purple-900 border-purple-300" },
+                    { zh: "我想拍 照", zhuyin: "ㄨㄛˇ ㄒㄧㄤˇ ㄆㄞˋ ㄓㄠˋ", pinyin: "wǒ xiǎng pāi zhào", ja: "~を撮影したいです", trans: "写真を撮ってもいいですか", color: "bg-pink-100 text-pink-900 border-pink-300" },
+                    { zh: "哪一個", zhuyin: "ㄋㄚˇ ㄧ ㄍㄜˋ", pinyin: "nǎ yī gè", ja: "どれですか", trans: "どれですか？", color: "bg-orange-100 text-orange-900 border-orange-300" },
+                    { zh: "這裡", zhuyin: "ㄓㄜˋ ㄌㄧˇ", pinyin: "zhè lǐ", ja: "ここ", trans: "ここはとてもきれいです", color: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+                    { zh: "捷運", zhuyin: "ㄐㄧㄝˊ ㄩㄣˋ", pinyin: "jié yùn", ja: "MRT", trans: "MRTはとても便利です", color: "bg-sky-100 text-sky-900 border-sky-300" },
+                    { zh: "台灣人", zhuyin: "ㄊㄞˊ ㄨㄢ ㄖㄣˊ", pinyin: "tái wān rén", ja: "台湾の人", trans: "台湾の人はとても親切です", color: "bg-yellow-100 text-yellow-900 border-yellow-300" }
+                ]
+            }
+        ];
+
+        // シチュエーション別台湾華語データ
+        const SITUATIONS = [
+            {
+                title: "🍜 飲食店・夜市で注文する",
+                phrases: [
+                    { zh: "我要半糖、少冰的珍珠奶茶。", pinyin: "wǒ yào bàn táng, shǎo bīng de zhēn zhū nǎi chá.", ja: "甘さ半分、氷少なめのタピオカミルクティーをください。" },
+                    { zh: "請問有中文菜單嗎？", pinyin: "qǐng wèn yǒu zhōng wén cài dān ma?", ja: "中国語のメニューはありますか？" },
+                    { zh: "總共多少錢？", pinyin: "zǒng gòng duō shǎo qián?", ja: "合計でいくらですか？" }
+                ]
+            },
+            {
+                title: "🚇 交通・移動（MRTやタクシー）",
+                phrases: [
+                    { zh: "請問到台北101怎麼走？", pinyin: "qǐng wèn dào tái běi yī líng yī zěn me zǒu?", ja: "台北101へはどう行けばいいですか？" },
+                    { zh: "可以刷悠遊卡嗎？", pinyin: "kě yǐ shuā yóu yóu kǎ ma?", ja: "悠遊カードは使えますか？" },
+                    { zh: "請在這裡停車，謝謝。", pinyin: "qǐng zài zhè lǐ tíng chē, xiè xie.", ja: "ここで停めてください。ありがとうございます。" }
+                ]
+            },
+            {
+                title: "🏨 ホテル・宿泊",
+                phrases: [
+                    { zh: "請問可以寄行李嗎？", pinyin: "qǐng wèn kě yǐ jì xíng lǐ ma?", ja: "荷物を預かってもらえますか？" },
+                    { zh: "房間裡有Wi-Fi嗎？", pinyin: "fáng jiān lǐ yǒu wāi fā ma?", ja: "部屋にWi-Fiはありますか？" },
+                    { zh: "請問幾点退房？", pinyin: "qǐng wèn jǐ diǎn tuì fáng?", ja: "チェックアウトは何時ですか？" }
+                ]
+            },
+            {
+                title: "🛍️ お買い物・お土産",
+                phrases: [
+                    { zh: "這個可以试吃嗎？", pinyin: "zhè gè kě yǐ shì chī ma?", ja: "これ試食できますか？" },
+                    { zh: "請問有免税服務嗎？", pinyin: "qǐng wèn yǒu miǎn shuì fú wù ma?", ja: "免税サービスはありますか？" },
+                    { zh: "請給我發票。", pinyin: "qǐng gěi wǒ fā piào.", ja: "統一発票をください。" }
                 ]
             }
         ];
@@ -237,23 +272,30 @@
         ];
 
         function App() {
+            // ユーザー設定（名前・匿名選択）
+            const [userName, setUserName] = useState('');
+            const [isAnonymous, setIsAnonymous] = useState(false);
+            const [isSetupDone, setIsSetupDone] = useState(false);
+
             const [selectedPattern, setSelectedPattern] = useState(CORE_PATTERNS[0]);
             const [currentWordObj, setCurrentWordObj] = useState(CORE_PATTERNS[0].words[0]);
             
             const [rubyType, setRubyType] = useState('pinyin'); 
             const [theme, setTheme] = useState('normal'); 
-            const [activeTab, setActiveTab] = useState('app'); 
+            const [activeTab, setActiveTab] = useState('app'); // 'app' | 'rewards' | 'piyotom' | 'situations'
 
+            // 学習記録＆ゲーミフィケーション
             const [points, setPoints] = useState(225);
-            const [eggExp, setEggExp] = useState(80); 
+            const [eggExp, setEggExp] = useState(90); 
+            const [isHatched, setIsHatched] = useState(false);
             const [rewards, setRewards] = useState(['とり先生の特製めがね①']);
+            const [practiceCount, setPracticeCount] = useState(12); // 学習記録：発音回数など
 
             const [searchQuery, setSearchQuery] = useState('');
             const [searchResult, setSearchResult] = useState(null);
             const [showExplanation, setShowExplanation] = useState(false);
             const [currentTip, setCurrentTip] = useState(TIPS_LIST[0]);
 
-            // ピヨ友ルーム（ユーザー同士の交流用）
             const [piyotomMessages, setPiyotomMessages] = useState([
                 { sender: '旅仲間Aさん', text: '来週台北に行きます！おすすめの牛肉麺屋さん教えてください！', time: '12:00' },
                 { sender: '旅仲間Bさん', text: '西門町にあるお店がすごく美味しかったですよ！', time: '12:05' }
@@ -270,25 +312,33 @@
 
             const addExpAndPoints = (amt) => {
                 setPoints(p => p + amt);
+                setPracticeCount(c => c + 1);
                 setEggExp(e => {
                     const next = e + amt * 2;
-                    if (next >= 100) {
-                        alert("🎉 おめでとうございます！たまごが孵化して新しい特典アイテムをゲットしましたピヨ！🐣");
-                        setRewards(r => [...r, `とり先生の限定バッジ #${r.length + 1}`]);
-                        return 0;
+                    if (next >= 100 && !isHatched) {
+                        return 100; // マックス状態にする（通知ポップアップは出さず、育成ルームでチェックしてもらう）
                     }
-                    return next;
+                    return next >= 100 ? 100 : next;
                 });
             };
 
-            // Googleの綺麗な女性音声（台湾華語: zh-TW）を優先選択して読み上げる関数
+            const handleHatchCheck = () => {
+                if (eggExp >= 100 && !isHatched) {
+                    setIsHatched(true);
+                    const newReward = `🐣 とり先生の特製ゴールドスタンプ #${rewards.length + 1}`;
+                    setRewards(r => [...r, newReward]);
+                    alert("🎉 おめでとうございます！たまごが無事に孵化して、新しい特典アイテムをゲットしましたピヨ！✨");
+                }
+            };
+
+            // Googleの綺麗な女性音声（台湾華語: zh-TW）を優先選択
             const speakText = (text, isWordOnly = false) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'zh-TW'; 
                     utterance.rate = 0.85;
-                    utterance.pitch = 1.1; // 明るく綺麗な女性トーン
+                    utterance.pitch = 1.1; 
 
                     const voices = window.speechSynthesis.getVoices();
                     const googleFemaleVoice = voices.find(v => v.lang === 'zh-TW' && (v.name.includes('Google') || v.name.includes('Female') || v.name.includes('Mei-Jia') || v.name.includes('Yaoyao')));
@@ -318,7 +368,7 @@
 
             const getFullSentence = () => {
                 if (selectedPattern.id === 10) {
-                    return `${currentWordObj.zh}很好吃！`;
+                    return currentWordObj.zh; // 感想・使える型カテゴリーは単語自体が文になるものも含む
                 }
                 return selectedPattern.formula.replace('～', currentWordObj.zh);
             };
@@ -356,7 +406,7 @@
                     setCurrentWordObj(foundWord);
                     setSearchResult(null);
                     setSearchQuery('');
-                    speakText(foundPattern.id === 10 ? `${foundWord.zh}很好吃！` : foundPattern.formula.replace('～', foundWord.zh));
+                    speakText(foundPattern.id === 10 ? foundWord.zh : foundPattern.formula.replace('～', foundWord.zh));
                 } else {
                     setSearchResult("該当する単語が見つからなかったピヨ…別の言葉で探してみてね！");
                 }
@@ -371,7 +421,8 @@
                 e.preventDefault();
                 if (!inputMessage.trim()) return;
                 const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                const newMsg = { sender: 'あなた', text: inputMessage, time: timeStr };
+                const senderName = isAnonymous ? '匿名さん' : (userName.trim() || '旅仲間');
+                const newMsg = { sender: senderName, text: inputMessage, time: timeStr };
                 setPiyotomMessages(prev => [...prev, newMsg]);
                 setInputMessage('');
             };
@@ -380,6 +431,51 @@
                 if (rubyType === 'zhuyin') return <span className="text-xs font-bold text-orange-600 bg-amber-100 px-2 py-0.5 rounded-lg border border-slate-800">注音: {wordObj.zhuyin}</span>;
                 return <span className="text-xs font-bold text-orange-600 bg-amber-100 px-2 py-0.5 rounded-lg border border-slate-800">ピン音: {wordObj.pinyin}</span>;
             };
+
+            // 初回セットアップ画面
+            if (!isSetupDone) {
+                return (
+                    <div className="max-w-md mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen bg-amber-50 text-slate-900 font-sans">
+                        <div className="w-24 h-24 bg-amber-300 rounded-full border-4 border-slate-800 flex items-center justify-center overflow-hidden shadow-lg mb-4 animate-bounce">
+                            <ToriAvatar />
+                        </div>
+                        <h1 className="text-2xl font-black mb-2 text-center">とり先生の台湾華語へようこそ！🐣</h1>
+                        <p className="text-xs font-bold text-slate-600 mb-6 text-center">アプリを始める前に、あなたのお名前や表示方法を設定してね！</p>
+
+                        <div className="bg-white border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] w-full space-y-4">
+                            <div>
+                                <label className="block text-xs font-black mb-1">お名前（ニックネーム等）</label>
+                                <input 
+                                    type="text" 
+                                    value={userName} 
+                                    onChange={(e) => setUserName(e.target.value)} 
+                                    placeholder="例：ランちゃん" 
+                                    disabled={isAnonymous}
+                                    className="w-full bg-amber-50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold disabled:opacity-50"
+                                />
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <input 
+                                    type="checkbox" 
+                                    id="anon" 
+                                    checked={isAnonymous} 
+                                    onChange={(e) => setIsAnonymous(e.target.checked)} 
+                                    className="w-4 h-4 border-2 border-slate-800 rounded"
+                                />
+                                <label htmlFor="anon" className="text-xs font-bold cursor-pointer">ピヨ友ルームでは「匿名」で参加する</label>
+                            </div>
+
+                            <button 
+                                onClick={() => setIsSetupDone(true)}
+                                className="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-black rounded-2xl border-2 border-slate-800 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5 text-sm transition"
+                            >
+                                学習をスタートする 🚀
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
 
             return (
                 <div className={`max-w-2xl mx-auto px-4 py-6 flex flex-col min-h-screen ${themeStyles[theme]}`}>
@@ -392,10 +488,10 @@
                             </div>
                             <div>
                                 <h1 className="text-base font-black tracking-tight">
-                                    とり先生の台湾華語
+                                    {isAnonymous ? '匿名さん' : (userName || '旅仲間')}の台湾華語
                                 </h1>
                                 <p className="text-xs font-bold opacity-80">
-                                    型にはめて単語を入れるだけ！🐣
+                                    発音練習: {practiceCount}回達成！🔥
                                 </p>
                             </div>
                         </div>
@@ -413,42 +509,57 @@
                     </header>
 
                     {/* タブ切り替え */}
-                    <div className="flex gap-2 mb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                         <button 
                             onClick={() => setActiveTab('app')}
-                            className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'app' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
+                            className={`py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'app' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
                         >
-                            📚 学習ルーム
+                            📚 作文マシン
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('situations')}
+                            className={`py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'situations' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
+                        >
+                            ✈️ シチュエーション
                         </button>
                         <button 
                             onClick={() => setActiveTab('rewards')}
-                            className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'rewards' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
+                            className={`py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'rewards' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
                         >
-                            🥚 たまご育成
+                            🥚 たまご育成 {eggExp >= 100 && !isHatched ? '✨' : ''}
                         </button>
                         <button 
                             onClick={() => setActiveTab('piyotom')}
-                            className={`flex-1 py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'piyotom' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
+                            className={`py-2.5 rounded-2xl border-2 border-slate-800 font-black text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] transition ${activeTab === 'piyotom' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}
                         >
                             💬 ピヨ友ルーム
                         </button>
                     </div>
 
-                    {/* たまご育成ルーム */}
+                    {/* たまご育成ルーム（こちらからチェックしに行って孵化する形式） */}
                     {activeTab === 'rewards' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
                             <div className="text-center">
                                 <h2 className="text-lg font-black mb-1">🐣 とり先生のたまご育成ルーム</h2>
-                                <p className="text-xs opacity-80">たくさん発音して練習するとたまごが育ち、楽しい特典がもらえるピヨ！</p>
+                                <p className="text-xs opacity-80">たくさん練習してゲージが貯まったら、ここをチェックして孵化させよう！</p>
                             </div>
 
                             <div className="bg-amber-50 border-3 border-slate-800 rounded-3xl p-6 text-center shadow-inner">
-                                <div className="text-7xl mb-3 animate-bounce">🥚</div>
+                                <div className="text-7xl mb-3 animate-bounce">{isHatched ? '🐥' : '🥚'}</div>
                                 <div className="text-xs font-black text-slate-800 mb-2">たまごの成長ゲージ</div>
                                 <div className="w-full bg-white border-2 border-slate-800 rounded-full h-5 overflow-hidden p-0.5">
                                     <div className="bg-orange-500 h-full rounded-full transition-all duration-500" style={{ width: `${eggExp}%` }}></div>
                                 </div>
-                                <div className="text-xs font-bold text-slate-800 mt-2">{eggExp} / 100 EXP (あと {100 - eggExp} EXPで孵化！)</div>
+                                <div className="text-xs font-bold text-slate-800 mt-2">{eggExp} / 100 EXP</div>
+
+                                {eggExp >= 100 && !isHatched && (
+                                    <button 
+                                        onClick={handleHatchCheck}
+                                        className="mt-4 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-black rounded-2xl border-2 border-slate-800 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] animate-pulse text-sm"
+                                    >
+                                        🎉 たまごを孵化させる！
+                                    </button>
+                                )}
                             </div>
 
                             <div>
@@ -465,12 +576,46 @@
                         </div>
                     )}
 
-                    {/* ピヨ友ルーム（ユーザー同士の交流用＆注意書き付き） */}
+                    {/* シチュエーション別の台湾華語ルーム */}
+                    {activeTab === 'situations' && (
+                        <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] space-y-6 flex-1`}>
+                            <div className="text-center">
+                                <h2 className="text-lg font-black mb-1">✈️ シチュエーション別 台湾華語</h2>
+                                <p className="text-xs opacity-80">台湾旅行の場面ごとにすぐ使える実践フレーズ集ピヨ！</p>
+                            </div>
+
+                            <div className="space-y-4">
+                                {SITUATIONS.map((sit, idx) => (
+                                    <div key={idx} className="bg-amber-50/70 border-2 border-slate-800 rounded-2xl p-4 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">
+                                        <h3 className="text-sm font-black mb-2 text-slate-900">{sit.title}</h3>
+                                        <div className="space-y-2">
+                                            {sit.phrases.map((p, pIdx) => (
+                                                <div key={pIdx} className="bg-white border border-slate-800 rounded-xl p-2.5 flex items-center justify-between text-xs">
+                                                    <div>
+                                                        <div className="font-black text-sm text-slate-900">{p.zh}</div>
+                                                        <div className="text-[10px] text-orange-600 font-bold">{p.pinyin}</div>
+                                                        <div className="text-[11px] text-slate-700 font-bold">{p.ja}</div>
+                                                    </div>
+                                                    <button 
+                                                        onClick={() => speakText(p.zh, false)}
+                                                        className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-xl font-black text-xs border border-slate-800 shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] shrink-0"
+                                                    >
+                                                        🔊 聴く
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ピヨ友ルーム */}
                     {activeTab === 'piyotom' && (
                         <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex flex-col h-[520px]`}>
                             <div className="border-b-2 border-slate-200 pb-3 mb-3">
                                 <h2 className="text-base font-black mb-1">💬 ピヨ友ルーム（旅仲間チャット）</h2>
-                                {/* 簡潔な注意書き */}
                                 <p className="text-[11px] text-rose-600 font-bold bg-rose-50 border border-rose-200 rounded-xl p-2">
                                     ⚠️ ご注意：ルーム内での会話やトラブル等につきまして、とり先生および運営は一切関与いたしません。すべて個人の責任においてご利用ください。
                                 </p>
@@ -478,7 +623,7 @@
 
                             <div className="flex-1 overflow-y-auto space-y-3 pr-2 mb-3">
                                 {piyotomMessages.map((msg, idx) => (
-                                    <div key={idx} className={`p-3 rounded-2xl border-2 border-slate-800 text-xs ${msg.sender === 'あなた' ? 'bg-amber-100 text-slate-900 ml-4' : 'bg-white text-slate-900 mr-4'}`}>
+                                    <div key={idx} className={`p-3 rounded-2xl border-2 border-slate-800 text-xs ${msg.sender === (isAnonymous ? '匿名さん' : (userName || '旅仲間')) ? 'bg-amber-100 text-slate-900 ml-4' : 'bg-white text-slate-900 mr-4'}`}>
                                         <div className="flex justify-between font-bold mb-1 text-[10px] opacity-70">
                                             <span>{msg.sender}</span>
                                             <span>{msg.time}</span>
@@ -503,7 +648,7 @@
                         </div>
                     )}
 
-                    {/* 学習ルーム */}
+                    {/* 学習ルーム（作文マシン） */}
                     {activeTab === 'app' && (
                         <div className="space-y-4 flex-1 flex flex-col">
                             
@@ -514,7 +659,7 @@
                                         type="text" 
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        placeholder="🔍 検索例: 小籠包, トイレ, 台北101, 多少錢..." 
+                                        placeholder="🔍 検索例: 小籠包, 洗手間, 101, 多少錢..." 
                                         className="flex-1 bg-amber-50/50 border-2 border-slate-800 rounded-2xl px-4 py-2.5 text-xs font-bold focus:outline-none text-slate-900"
                                     />
                                     <button type="submit" className="bg-slate-900 text-white font-black px-5 py-2.5 rounded-2xl border-2 border-slate-800 text-xs shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] active:translate-y-0.5">
@@ -584,10 +729,10 @@
                                 </div>
                             </div>
 
-                            {/* 2. 単語の入れ替え選択 */}
+                            {/* 2. 単語の入れ替え選択（カラフルに改良） */}
                             <div className={`${cardBg} border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]`}>
                                 <div className="text-xs font-black opacity-70 uppercase tracking-wider mb-3 flex items-center justify-between">
-                                    <span>👇 単語をタップして入れ替え（色分け連動）</span>
+                                    <span>👇 単語をタップして入れ替え（カラフル連動）</span>
                                     <span className="text-[10px] text-orange-600 bg-amber-100 px-2 py-0.5 rounded border border-slate-800">タップで単語音声</span>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
@@ -597,14 +742,14 @@
                                             <button
                                                 key={idx}
                                                 onClick={() => handleWordSelect(w)}
-                                                className={`p-3 rounded-2xl border-2 border-slate-800 text-left transition active:translate-y-0.5 ${
+                                                className={`p-3 rounded-2xl border-2 transition active:translate-y-0.5 text-left ${w.color} ${
                                                     isSelected 
-                                                        ? `${selectedPattern.color} text-white shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-black ring-2 ring-white` 
-                                                        : 'bg-white hover:bg-amber-50 text-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-bold'
+                                                        ? 'ring-4 ring-slate-900 shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-black scale-105' 
+                                                        : 'shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] font-bold opacity-90 hover:opacity-100'
                                                 }`}
                                             >
                                                 <div className="text-sm truncate">{w.zh}</div>
-                                                <div className={`text-[10px] truncate ${isSelected ? 'text-white/90' : 'opacity-70'}`}>{w.ja}</div>
+                                                <div className="text-[10px] truncate opacity-80">{w.ja}</div>
                                             </button>
                                         );
                                     })}
@@ -630,7 +775,7 @@
                                                 }`}
                                             >
                                                 <span className="text-xs truncate pr-2">{pattern.name}</span>
-                                                <span className={`text-[10px] px-2 py-0.5 rounded-lg shrink-0 border border-slate-800 ${isSelected ? 'bg-orange-500 text-white' : `${pattern.lightColor} text-slate-900`}`}>
+                                                <span className={`text-[10px] px-2 py-0.5 rounded-lg shrink-0 border border-slate-800 ${isSelected ? 'bg-orange-500 text-white' : pattern.lightColor}`}>
                                                     {pattern.formula.split('～')[0]}~
                                                 </span>
                                             </button>
