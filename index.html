@@ -1,98 +1,78 @@
-import tkinter as tk
-from tkinter import messagebox
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台湾鳥界の帝王・ミカドキジ（帝雉）</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #2c5e3b;
+            color: white;
+            border-radius: 8px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c5e3b;
+            border-bottom: 2px solid #2c5e3b;
+            padding-bottom: 5px;
+        }
+        .highlight {
+            background-color: #e8f4ec;
+            padding: 15px;
+            border-left: 5px solid #2c5e3b;
+            margin: 20px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
 
-# ==========================================
-# 1. 翻訳データ（通訳レベル・正しい語順に最適化）
-# ==========================================
-TRANS = {
-    "夜市は何時に始まりますか？": "請問夜市幾點開始？",
-    "営業開始は何時ですか？": "請問幾點開始營業？",
-    "閉店は何時ですか？": "請問幾點打烊？",
-    "ラストオーダーは何時ですか？": "請問幾點最後點餐？",
-    "すみません、注文をお願いします。": "不好意思，我們要點餐。",
-    "これは辛くしないでいただけますか？": "這個可以不要辣嗎？",
-    "お会計をお願いします。": "結帳，謝謝。",
-    "次の電車は何時ですか？": "下一班車是幾點？"
-}
+    <header>
+        <h1>台湾鳥界の帝王</h1>
+        <p>ミカドキジ（帝雉）の魅力に迫る</p>
+    </header>
 
-# ==========================================
-# 2. 注音（ㄅㄆㄇ）トレーニングデータ（1文字ごとの解説）
-# ==========================================
-BOPO = [
-    ("ㄅ", "b", "上下の唇を軽く合わせ、勢いよく息を弾ませて「バ」"),
-    ("ㄆ", "p", "手のひらに息を吹きかけるように、強く息を破裂させて「パ」"),
-    ("ㄇ", "m", "口を閉じたまま、鼻から「マ〜」と響かせる"),
-    ("ㄈ", "f", "上の前歯を下の唇に軽く当てて、隙間から「ファ」と息を漏らす"),
-    ("ㄉ", "d", "舌先を上の歯の裏につけて、弾くように「ダ」"),
-    ("ㄊ", "t", "強く息を出しながら、舌先を弾いて「タ」")
-]
-
-# ==========================================
-# 3. GUIアプリケーション メインクラス
-# ==========================================
-class TaiwanAllInOneApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("🇹🇼 台湾華語翻訳 ＆ たまご育成・注音トレーニング 🐣")
-        self.root.geometry("420x560")
-        self.root.config(bg="#FFF8F0")
-        self.bopo_idx = 0
-
-        # --- 【 上部：翻訳エリア 】 ---
-        tk.Label(root, text="【 台湾華語 翻訳機（通訳レベル） 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#D35400").pack(pady=5)
+    <div class="content">
+        <h2>ミカドキジとは？</h2>
+        <p>台湾は豊かな自然に恵まれた野鳥天国です。その中でも「王者」と称されるのが、固有種の<strong>ミカドキジ（帝雉）</strong>です。</p>
         
-        self.ent = tk.Entry(root, font=("Meiryo", 11), width=34)
-        self.ent.pack(pady=3)
-        self.ent.insert(0, "夜市は何時に始まりますか？")
-        self.ent.bind("<Return>", lambda event: self.do_trans())
-        
-        tk.Button(root, text="翻訳する", font=("Meiryo", 10, "bold"), bg="#E67E22", fg="white", command=self.do_trans).pack(pady=3)
-        
-        self.txt = tk.Text(root, font=("Meiryo", 11), height=3, width=34, bg="#FDEBD0")
-        self.txt.pack(pady=3)
-        # 初期翻訳の実行
-        self.do_trans()
+        <div class="highlight">
+            <p><strong>主な目撃スポット：</strong> 阿里山の小笠原觀景台などで出会うことができます。運が良ければ、台湾を訪れた際に見かけることができるかもしれません。</p>
+        </div>
 
-        # 区切り線
-        tk.Label(root, text="--------------------------------------------------", bg="#FFF8F0", fg="#BDC3C7").pack(pady=2)
+        <h2>特徴</h2>
+        <p>気品のある美しい姿から「台湾鳥界の帝王」と呼ばれており、バードウォッチャーや台湾好きの間で非常に人気の高い野鳥です。</p>
+    </div>
 
-        # --- 【 下部：たまご育成 ＆ 注音トレーニングエリア 】 ---
-        tk.Label(root, text="【 🥚 たまご育成 ＆ 注音トレーニング 】", font=("Meiryo", 11, "bold"), bg="#FFF8F0", fg="#27AE60").pack(pady=3)
-        
-        self.lbl_bopo = tk.Label(root, text="", font=("Meiryo", 20, "bold"), bg="#FFF8F0", fg="#2C3E50")
-        self.lbl_bopo.pack(pady=3)
-        
-        self.lbl_guide = tk.Label(root, text="", font=("Meiryo", 10), bg="#FFF8F0", wraplength=360, justify="center")
-        self.lbl_guide.pack(pady=3)
-        
-        tk.Button(root, text="次の注音へ進む ➡️", font=("Meiryo", 10, "bold"), bg="#2ECC71", fg="white", command=self.next_bopo).pack(pady=5)
+    <footer>
+        <p>&copy; 2026 台湾の野鳥紹介ページ</p>
+    </footer>
 
-        # 初期の注音表示更新
-        self.update_bopo()
-
-    def do_trans(self):
-        q = self.ent.get().strip()
-        if not q:
-            messagebox.showwarning("警告", "テキストを入力してくださいピヨ！")
-            return
-        # 辞書に一致すれば高精度訳、それ以外は通訳モードとして表示
-        ans = TRANS.get(q, f"【通訳モード最適化】 {q}")
-        self.txt.delete("1.0", tk.END)
-        self.txt.insert(tk.END, ans)
-
-    def next_bopo(self):
-        self.bopo_idx = (self.bopo_idx + 1) % len(BOPO)
-        self.update_bopo()
-
-    def update_bopo(self):
-        b, p, g = BOPO[self.bopo_idx]
-        self.lbl_bopo.config(text=f"{b} （ピンイン: {p}）")
-        self.lbl_guide.config(text=f"💡 発音のコツ:\n{g}")
-
-# ==========================================
-# 4. 実行処理
-# ==========================================
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = TaiwanAllInOneApp(root)
-    root.mainloop()
+</body>
+</html>
